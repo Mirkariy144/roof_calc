@@ -1,15 +1,27 @@
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+} from '@mui/material';
 import React, { Fragment } from 'react';
 
 export const ItemCard = ({ name }: { name: string }) => {
   const card = (
-    <Fragment>
+    <Card>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {name}
         </Typography>
       </CardContent>
-    </Fragment>
+      <CardActions>
+        <Button size="small" variant="outlined">
+          Open Project
+        </Button>
+      </CardActions>
+    </Card>
   );
 
   return (

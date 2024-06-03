@@ -7,7 +7,7 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 
 interface NewItemModalProps {
   handler: () => void;
@@ -15,6 +15,7 @@ interface NewItemModalProps {
   Text?: string;
   Close?: string;
   Status: boolean;
+  dispatchNew: (data: any) => void;
 }
 
 export const NewItemModal = ({
@@ -23,13 +24,37 @@ export const NewItemModal = ({
   Text,
   Close,
   Status,
+  dispatchNew,
 }: NewItemModalProps) => {
   return (
-    <Dialog open={Status} onClose={handler}>
+    <Dialog
+      open={Status}
+      onClose={handler}
+      PaperProps={{
+        component: 'form',
+        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          const formJson = Object.fromEntries((formData as any).entries());
+          const text = formJson.text;
+          dispatchNew(text);
+          handler();
+        },
+      }}
+    >
       <DialogTitle>{Title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{Text}</DialogContentText>
-        <TextField />
+        <TextField
+          autoFocus
+          required
+          margin="dense"
+          name="text"
+          label="Название проекта"
+          type="text"
+          fullWidth
+          variant="standard"
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handler}>Отмена</Button>

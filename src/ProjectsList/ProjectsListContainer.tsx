@@ -4,8 +4,15 @@ import { connect } from 'react-redux';
 import { GridItems } from '../shared/GridItems/GridItems';
 import { NewItemModal } from '../shared/Modal/NewItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
+import { addProject } from '../shared/store/reducer/projectReducer';
 
-const ProjectsList = ({ Projects }: { Projects: any }) => {
+const ProjectsList = ({
+  Projects,
+  addNewProject,
+}: {
+  Projects: any;
+  addNewProject: any;
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -24,6 +31,7 @@ const ProjectsList = ({ Projects }: { Projects: any }) => {
           handler={handleClose}
           Title="Новый проект"
           Text="Создайте новый проект"
+          dispatchNew={addNewProject}
         />
         <AddNewItemButton
           name="Добавить проект"
@@ -42,7 +50,11 @@ let mapStateToProps = (state: any) => {
 };
 
 let mapDispatchToProps = (dispatch: any) => {
-  return {};
+  return {
+    addNewProject: (data: any) => {
+      dispatch(addProject(data));
+    },
+  };
 };
 
 export const ProjectsListContainer = connect(
