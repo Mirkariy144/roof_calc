@@ -14,20 +14,42 @@ export const GridItems = ({ items }: GridItemsProps) => {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         sx={{ display: 'flex', justifyContent: 'center' }}
       >
-        {items.map((item: { name: string; id: number }) => (
-          <Grid
-            item
-            sx={{
-              padding: '10px',
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-            }}
-            key={item.id}
-          >
-            <ItemCard name={item.name} />
-          </Grid>
-        ))}
+        {items.map(
+          (item: {
+            name: string;
+            projectId: number;
+            queueId?: number;
+            sectionId?: number;
+          }) => (
+            <Grid
+              item
+              sx={{
+                padding: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+              }}
+              key={
+                item.sectionId
+                  ? item.sectionId
+                  : item.queueId
+                  ? item.queueId
+                  : item.sectionId
+              }
+            >
+              <ItemCard
+                name={item.name}
+                projectId={
+                  item.sectionId
+                    ? item.sectionId
+                    : item.queueId
+                    ? item.queueId
+                    : item.projectId
+                }
+              />
+            </Grid>
+          )
+        )}
       </Grid>
     </Box>
   );

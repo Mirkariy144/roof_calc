@@ -8,6 +8,7 @@ import {
   TextField,
 } from '@mui/material';
 import React, { FormEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 interface NewItemModalProps {
   handler: () => void;
@@ -26,10 +27,36 @@ export const NewItemModal = ({
   Status,
   dispatchNew,
 }: NewItemModalProps) => {
+  const { name, projectId, queueId, sectionId } = useParams();
+
+  const checkParams = () => {
+    if (sectionId) {
+      return {
+        projectId: projectId,
+        queueId: queueId,
+        sectionId: sectionId,
+      };
+    } else if (queueId) {
+      return {
+        projectId: projectId,
+        queueId: queueId,
+      };
+    } else if (projectId) {
+      return {
+        projectId: projectId,
+      };
+    }
+  };
+
   return (
     <Dialog
       open={Status}
       onClose={handler}
+      sx={{
+        '& .MuiDialog-paperWidthSm': {
+          width: '400px',
+        },
+      }}
       PaperProps={{
         component: 'form',
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,7 +64,7 @@ export const NewItemModal = ({
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries((formData as any).entries());
           const text = formJson.text;
-          dispatchNew(text);
+          dispatchNew({ name: text, ...checkParams() });
           handler();
         },
       }}

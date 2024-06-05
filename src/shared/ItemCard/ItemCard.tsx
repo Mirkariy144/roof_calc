@@ -7,8 +7,16 @@ import {
   Typography,
 } from '@mui/material';
 import React, { Fragment } from 'react';
+import ButtonRouter from './test';
+import { Link as RouterLink } from 'react-router-dom';
 
-export const ItemCard = ({ name }: { name: string }) => {
+export const ItemCard = ({
+  name,
+  projectId,
+}: {
+  name: string;
+  projectId: number;
+}) => {
   const card = (
     <Card>
       <CardContent>
@@ -17,7 +25,12 @@ export const ItemCard = ({ name }: { name: string }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" variant="outlined">
+        <Button
+          size="small"
+          variant="outlined"
+          component={RouterLink}
+          to={`/${name}/${projectId}`}
+        >
           Open Project
         </Button>
       </CardActions>

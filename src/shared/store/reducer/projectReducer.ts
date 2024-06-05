@@ -9,7 +9,7 @@ const projectsReducer = createSlice({
   },
   reducers: {
     addProject: (state: any, data: { payload: any }) => {
-      state.projects.push({ name: data.payload, id: ++idChecker });
+      state.projects.push({ name: data.payload.name, projectId: ++idChecker });
     },
   },
 });
