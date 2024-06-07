@@ -8,6 +8,13 @@ import { connect } from 'react-redux';
 import { addQueue } from '../shared/store/reducer/theConstructionQueueReducer';
 
 export const TheConstructionQueue = ({ ProjectQueue, addNewQueue }: any) => {
+  const { projectId } = useParams();
+
+  const queueItems = ProjectQueue.projectQueue.filter(
+    (item: { name: string; projectId: string }) =>
+      projectId ? projectId === item.projectId : null
+  );
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -19,7 +26,7 @@ export const TheConstructionQueue = ({ ProjectQueue, addNewQueue }: any) => {
   };
   return (
     <div>
-      <GridItems items={ProjectQueue.projectQueue} />
+      <GridItems items={queueItems} />
       <div className={s.button}>
         <NewItemModal
           Status={open}

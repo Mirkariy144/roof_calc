@@ -34,12 +34,12 @@ export const GridItems = ({ items }: GridItemsProps) => {
                   ? item.sectionId
                   : item.queueId
                   ? item.queueId
-                  : item.sectionId
+                  : item.projectId
               }
             >
               <ItemCard
                 name={item.name}
-                projectId={
+                elementId={
                   item.sectionId
                     ? item.sectionId
                     : item.queueId
