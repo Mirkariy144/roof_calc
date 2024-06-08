@@ -31,12 +31,13 @@ export const SectionsList = ({ Sections, addNewSection }: any) => {
         <NewItemModal
           Status={open}
           handler={handleClose}
-          Title="Новыя очередь строительства"
-          Text="Создайте новую очередь строительства"
+          Title="Новыя секция"
+          Text="Создайте новую секцию"
           dispatchNew={addNewSection}
+          label="Обозначьте секцию"
         />
         <AddNewItemButton
-          name="Добавить очередь"
+          name="Добавить секцию"
           variant="outlined"
           handler={handleClickOpen}
         />

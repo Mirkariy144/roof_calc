@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ProjectsListContainer } from '../ProjectsList/ProjectsListContainer';
 import { TheConstructionQueueContainer } from '../TheConstructionQueue/TheConstructionQueue';
 import { SectionListContainer } from '../SectionList/SectionListContainer';
+import { RoofList } from '../RoofListContainer/RoofListContainer';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<ProjectsListContainer />} />
         <Route path=":projectId" element={<TheConstructionQueueContainer />} />
         <Route path=":projectId/:queueId" element={<SectionListContainer />} />
+        <Route path=":projectId/:queueId/:sectionId" element={<RoofList />} />
       </Routes>
     </div>
   );

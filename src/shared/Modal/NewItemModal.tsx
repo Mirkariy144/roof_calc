@@ -17,6 +17,7 @@ interface NewItemModalProps {
   Close?: string;
   Status: boolean;
   dispatchNew: (data: any) => void;
+  label: string;
 }
 
 export const NewItemModal = ({
@@ -26,6 +27,7 @@ export const NewItemModal = ({
   Close,
   Status,
   dispatchNew,
+  label,
 }: NewItemModalProps) => {
   const { name, projectId, queueId, sectionId } = useParams();
 
@@ -77,7 +79,7 @@ export const NewItemModal = ({
           required
           margin="dense"
           name="text"
-          label="Название проекта"
+          label={label}
           type="text"
           fullWidth
           variant="standard"

@@ -32,6 +32,7 @@ const ProjectsList = ({
           Title="Новый проект"
           Text="Создайте новый проект"
           dispatchNew={addNewProject}
+          label="Введите название проекта"
         />
         <AddNewItemButton
           name="Добавить проект"

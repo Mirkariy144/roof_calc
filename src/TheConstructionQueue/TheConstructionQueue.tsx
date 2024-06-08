@@ -34,6 +34,7 @@ export const TheConstructionQueue = ({ ProjectQueue, addNewQueue }: any) => {
           Title="Новыя очередь строительства"
           Text="Создайте новую очередь строительства"
           dispatchNew={addNewQueue}
+          label="Введите очередь строительства"
         />
         <AddNewItemButton
           name="Добавить очередь"
