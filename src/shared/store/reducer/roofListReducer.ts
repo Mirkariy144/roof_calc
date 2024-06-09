@@ -9,8 +9,8 @@ const roofListReducer = createSlice({
   },
   reducers: {
     addRoofType: (state: any, data: { payload: any }) => {
-      state.sections.push({
-        name: data.payload.name,
+      state.layers.push({
+        name: data.payload.text,
         squareMeters: data.payload.squareMeters,
         sectionId: data.payload.sectionId,
         queueId: data.payload.queueId,

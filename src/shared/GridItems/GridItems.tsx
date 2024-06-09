@@ -20,6 +20,7 @@ export const GridItems = ({ items }: GridItemsProps) => {
             projectId: number;
             queueId?: number;
             sectionId?: number;
+            roofTypeId?: number;
           }) => (
             <Grid
               item

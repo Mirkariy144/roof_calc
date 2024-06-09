@@ -29,7 +29,7 @@ export const NewItemModal = ({
   dispatchNew,
   label,
 }: NewItemModalProps) => {
-  const { name, projectId, queueId, sectionId } = useParams();
+  const { projectId, queueId, sectionId } = useParams();
 
   const checkParams = () => {
     if (sectionId) {
