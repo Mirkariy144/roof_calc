@@ -8,13 +8,16 @@ import {
 } from '@mui/material';
 import React, { Fragment } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { IconButtons } from '../button/IconButtons';
 
 export const ItemCard = ({
   name,
   elementId,
+  editAction,
 }: {
   name: string;
   elementId: number;
+  editAction: (elementId: number) => void;
 }) => {
   const card = (
     <Card>
@@ -24,6 +27,7 @@ export const ItemCard = ({
         </Typography>
       </CardContent>
       <CardActions>
+        <IconButtons editAction={editAction} elementId={elementId} />
         <Button
           size="small"
           variant="outlined"

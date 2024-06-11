@@ -11,9 +11,14 @@ const projectsReducer = createSlice({
     addProject: (state: any, data: { payload: any }) => {
       state.projects.push({ name: data.payload.name, projectId: ++idChecker });
     },
+    editProject: (state: any, data: { payload: any }) => {
+      state.projects.find(
+        (item: any) => item.projectId === data.payload.elementId
+      ).name = data.payload.name;
+    },
   },
 });
 
-export const { addProject } = projectsReducer.actions;
+export const { addProject, editProject } = projectsReducer.actions;
 
 export default projectsReducer.reducer;

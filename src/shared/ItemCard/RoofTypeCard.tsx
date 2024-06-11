@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@mui/material';
 import React, { Fragment } from 'react';
-import { EditButton } from '../button/editButton';
 
 export const RoofTypeCard = ({
   name,
@@ -42,9 +41,7 @@ export const RoofTypeCard = ({
         </Typography>
         {roofLayersTypography}
       </CardContent>
-      <CardActions>
-        <EditButton />
-      </CardActions>
+      <CardActions></CardActions>
     </Card>
   );
 

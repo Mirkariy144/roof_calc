@@ -16,9 +16,14 @@ const sectionsReducer = createSlice({
         projectId: data.payload.projectId,
       });
     },
+    editSection: (state: any, data: { payload: any }) => {
+      state.sections.find(
+        (item: any) => item.sectionId === data.payload.elementId
+      ).name = data.payload.name;
+    },
   },
 });
 
-export const { addSection } = sectionsReducer.actions;
+export const { addSection, editSection } = sectionsReducer.actions;
 
 export default sectionsReducer.reducer;

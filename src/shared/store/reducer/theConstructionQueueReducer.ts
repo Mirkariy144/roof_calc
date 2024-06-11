@@ -15,9 +15,15 @@ const theConstructionQueueReducer = createSlice({
         projectId: data.payload.projectId,
       });
     },
+
+    editQueue: (state: any, data: { payload: any }) => {
+      state.projectQueue.find(
+        (item: any) => item.queueId === data.payload.elementId
+      ).name = data.payload.name;
+    },
   },
 });
 
-export const { addQueue } = theConstructionQueueReducer.actions;
+export const { addQueue, editQueue } = theConstructionQueueReducer.actions;
 
 export default theConstructionQueueReducer.reducer;

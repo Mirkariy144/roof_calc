@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { GridItems } from '../shared/GridItems/GridItems';
-import { NewItemModal } from '../shared/Modal/NewItemModal';
+import { ItemModal } from '../shared/Modal/ItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
 import s from '../app/appStyles/App.module.css';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addSection } from '../shared/store/reducer/sectionsReducer';
+import {
+  addSection,
+  editSection,
+} from '../shared/store/reducer/sectionsReducer';
 
-export const SectionsList = ({ Sections, addNewSection }: any) => {
+export const SectionsList = ({ Sections, addNewSection, editSection }: any) => {
   const { queueId } = useParams();
 
   const sectionItems = Sections.sections.filter(
@@ -24,17 +27,42 @@ export const SectionsList = ({ Sections, addNewSection }: any) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [openEditItemModal, setOpenEditItemModal] = useState(false);
+
+  const [elementId, setElementId] = useState(0);
+
+  const handleClickOpenEditItemModal = (elementId: number) => {
+    setOpenEditItemModal(true);
+    setElementId(elementId);
+  };
+
+  const handleCloseEditItemModal = () => {
+    setOpenEditItemModal(false);
+  };
   return (
     <div>
-      <GridItems items={sectionItems} />
+      <GridItems
+        items={sectionItems}
+        editAction={handleClickOpenEditItemModal}
+      />
       <div className={s.button}>
-        <NewItemModal
+        <ItemModal
           Status={open}
           handler={handleClose}
           Title="Новыя секция"
           Text="Создайте новую секцию"
           dispatchNew={addNewSection}
           label="Обозначьте секцию"
+        />
+        <ItemModal
+          Status={openEditItemModal}
+          handler={handleCloseEditItemModal}
+          Title="Изменение проекта"
+          Text="Изменение карточки проекта проект"
+          dispatchNew={editSection}
+          label="Введите новое название проекта"
+          elementId={elementId}
         />
         <AddNewItemButton
           name="Добавить секцию"
@@ -56,6 +84,9 @@ let mapDispatchToProps = (dispatch: any) => {
   return {
     addNewSection: (data: any) => {
       dispatch(addSection(data));
+    },
+    editSection: (data: any) => {
+      dispatch(editSection(data));
     },
   };
 };
