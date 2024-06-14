@@ -23,13 +23,11 @@ const theConstructionQueueReducer = createSlice({
     },
 
     deleteQueue: (state: any, data: { payload: any }) => {
-      debugger;
       if (data.payload.projectId) {
         state.projectQueue = state.projectQueue.filter(
           (item: any) => item.projectId !== data.payload.projectId
         );
       } else {
-        debugger;
         state.projectQueue = state.projectQueue.filter(
           (item: any) => item.queueId !== data.payload.queueId
         );
