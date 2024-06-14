@@ -7,15 +7,22 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   addSection,
+  deleteSection,
   editSection,
 } from '../shared/store/reducer/sectionsReducer';
+import { DeleteModal } from '../shared/Modal/DeleteModal';
 
-export const SectionsList = ({ Sections, addNewSection, editSection }: any) => {
+export const SectionsList = ({
+  Sections,
+  addNewSection,
+  editSection,
+  deleteSection,
+}: any) => {
   const { queueId } = useParams();
 
   const sectionItems = Sections.sections.filter(
     (item: { name: string; projectId: string; queueId: string }) =>
-      queueId ? queueId === item.queueId : null
+      queueId ? queueId == item.queueId : null
   );
 
   const [open, setOpen] = useState(false);
@@ -40,11 +47,29 @@ export const SectionsList = ({ Sections, addNewSection, editSection }: any) => {
   const handleCloseEditItemModal = () => {
     setOpenEditItemModal(false);
   };
+
+  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
+
+  const handleClickOpenDeleteItemModal = (elementId: number) => {
+    setOpenDeleteItemModal(true);
+    setElementId(elementId);
+  };
+
+  const handleCloseDeleteItemModal = () => {
+    setOpenDeleteItemModal(false);
+  };
+
+  const deleteItemsDispatch = () => {
+    deleteSection({ sectionId: elementId });
+    setOpenDeleteItemModal(false);
+  };
+
   return (
     <div>
       <GridItems
         items={sectionItems}
         editAction={handleClickOpenEditItemModal}
+        deleteAction={handleClickOpenDeleteItemModal}
       />
       <div className={s.button}>
         <ItemModal
@@ -63,6 +88,15 @@ export const SectionsList = ({ Sections, addNewSection, editSection }: any) => {
           dispatchNew={editSection}
           label="Введите новое название проекта"
           elementId={elementId}
+        />
+        <DeleteModal
+          handler={handleCloseDeleteItemModal}
+          Title={'Вы действительно хотите удалить секцию?'}
+          Text={
+            'Это повлечёт за собой удаление всех связанных с ней данных (кровли)'
+          }
+          Status={openDeleteItemModal}
+          deleteItemsDispatch={deleteItemsDispatch}
         />
         <AddNewItemButton
           name="Добавить секцию"
@@ -87,6 +121,9 @@ let mapDispatchToProps = (dispatch: any) => {
     },
     editSection: (data: any) => {
       dispatch(editSection(data));
+    },
+    deleteSection: (data: any) => {
+      dispatch(deleteSection(data));
     },
   };
 };

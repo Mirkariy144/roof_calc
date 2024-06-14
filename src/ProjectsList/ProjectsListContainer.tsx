@@ -6,21 +6,33 @@ import { ItemModal } from '../shared/Modal/ItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
 import {
   addProject,
+  deleteProject,
   editProject,
 } from '../shared/store/reducer/projectReducer';
+import { deleteQueue } from '../shared/store/reducer/theConstructionQueueReducer';
+import { deleteSection } from '../shared/store/reducer/sectionsReducer';
+import { DeleteModal } from '../shared/Modal/DeleteModal';
 
 const ProjectsList = ({
   Projects,
   addNewProject,
   editProject,
+  deleteProject,
+  deleteQueue,
+  deleteSection,
 }: {
   Projects: any;
   addNewProject: any;
   editProject: any;
+  deleteProject: any;
+  deleteQueue: any;
+  deleteSection: any;
 }) => {
   const [openNewItem, setOpenNewItem] = useState(false);
 
   const [openEditItemModal, setOpenEditItemModal] = useState(false);
+
+  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
 
   const [elementId, setElementId] = useState(0);
 
@@ -41,11 +53,28 @@ const ProjectsList = ({
     setOpenEditItemModal(false);
   };
 
+  const handleClickOpenDeleteItemModal = (elementId: number) => {
+    setOpenDeleteItemModal(true);
+    setElementId(elementId);
+  };
+
+  const handleCloseDeleteItemModal = () => {
+    setOpenDeleteItemModal(false);
+  };
+
+  const deleteItemsDispatch = () => {
+    deleteProject({ projectId: elementId });
+    deleteSection({ projectId: elementId });
+    deleteQueue({ projectId: elementId });
+    setOpenDeleteItemModal(false);
+  };
+
   return (
     <div>
       <GridItems
         items={Projects.projects}
         editAction={handleClickOpenEditItemModal}
+        deleteAction={handleClickOpenDeleteItemModal}
       />
       <div className={s.button}>
         <ItemModal
@@ -64,6 +93,15 @@ const ProjectsList = ({
           dispatchNew={editProject}
           label="Введите новое название проекта"
           elementId={elementId}
+        />
+        <DeleteModal
+          handler={handleCloseDeleteItemModal}
+          Title={'Вы действительно хотите удалить проект?'}
+          Text={
+            'Это повлечёт за собой удаление всех связанных с ним данных (очереди, секции и кровли)'
+          }
+          Status={openDeleteItemModal}
+          deleteItemsDispatch={deleteItemsDispatch}
         />
         <AddNewItemButton
           name="Добавить проект"
@@ -88,6 +126,15 @@ let mapDispatchToProps = (dispatch: any) => {
     },
     editProject: (data: any) => {
       dispatch(editProject(data));
+    },
+    deleteProject: (data: any) => {
+      dispatch(deleteProject(data));
+    },
+    deleteQueue: (data: any) => {
+      dispatch(deleteQueue(data));
+    },
+    deleteSection: (data: any) => {
+      dispatch(deleteSection(data));
     },
   };
 };

@@ -14,10 +14,12 @@ export const ItemCard = ({
   name,
   elementId,
   editAction,
+  deleteAction,
 }: {
   name: string;
   elementId: number;
   editAction: (elementId: number) => void;
+  deleteAction: (elementId: number) => void;
 }) => {
   const card = (
     <Card>
@@ -27,7 +29,11 @@ export const ItemCard = ({
         </Typography>
       </CardContent>
       <CardActions>
-        <IconButtons editAction={editAction} elementId={elementId} />
+        <IconButtons
+          editAction={editAction}
+          elementId={elementId}
+          deleteAction={deleteAction}
+        />
         <Button
           size="small"
           variant="outlined"

@@ -5,9 +5,14 @@ import { ItemCard } from '../ItemCard/ItemCard';
 interface GridItemsProps {
   items: [];
   editAction: (elementId: number) => void;
+  deleteAction: (elementId: number) => void;
 }
 
-export const GridItems = ({ items, editAction }: GridItemsProps) => {
+export const GridItems = ({
+  items,
+  editAction,
+  deleteAction,
+}: GridItemsProps) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
@@ -49,6 +54,7 @@ export const GridItems = ({ items, editAction }: GridItemsProps) => {
                     : item.projectId
                 }
                 editAction={editAction}
+                deleteAction={deleteAction}
               />
             </Grid>
           )

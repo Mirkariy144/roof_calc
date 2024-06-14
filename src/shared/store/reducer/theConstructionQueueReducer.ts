@@ -12,7 +12,7 @@ const theConstructionQueueReducer = createSlice({
       state.projectQueue.push({
         name: data.payload.name,
         queueId: ++idChecker,
-        projectId: data.payload.projectId,
+        projectId: data.payload.projectId * 1,
       });
     },
 
@@ -21,9 +21,24 @@ const theConstructionQueueReducer = createSlice({
         (item: any) => item.queueId === data.payload.elementId
       ).name = data.payload.name;
     },
+
+    deleteQueue: (state: any, data: { payload: any }) => {
+      debugger;
+      if (data.payload.projectId) {
+        state.projectQueue = state.projectQueue.filter(
+          (item: any) => item.projectId !== data.payload.projectId
+        );
+      } else {
+        debugger;
+        state.projectQueue = state.projectQueue.filter(
+          (item: any) => item.queueId !== data.payload.queueId
+        );
+      }
+    },
   },
 });
 
-export const { addQueue, editQueue } = theConstructionQueueReducer.actions;
+export const { addQueue, editQueue, deleteQueue } =
+  theConstructionQueueReducer.actions;
 
 export default theConstructionQueueReducer.reducer;

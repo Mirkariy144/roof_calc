@@ -16,9 +16,16 @@ const projectsReducer = createSlice({
         (item: any) => item.projectId === data.payload.elementId
       ).name = data.payload.name;
     },
+
+    deleteProject: (state: any, data: { payload: any }) => {
+      state.projects = state.projects.filter(
+        (item: any) => item.projectId !== data.payload.projectId
+      );
+    },
   },
 });
 
-export const { addProject, editProject } = projectsReducer.actions;
+export const { addProject, editProject, deleteProject } =
+  projectsReducer.actions;
 
 export default projectsReducer.reducer;

@@ -7,19 +7,24 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   addQueue,
+  deleteQueue,
   editQueue,
 } from '../shared/store/reducer/theConstructionQueueReducer';
+import { deleteSection } from '../shared/store/reducer/sectionsReducer';
+import { DeleteModal } from '../shared/Modal/DeleteModal';
 
 export const TheConstructionQueue = ({
   ProjectQueue,
   addNewQueue,
   editQueue,
+  deleteQueue,
+  deleteSection,
 }: any) => {
   const { projectId } = useParams();
 
   const queueItems = ProjectQueue.projectQueue.filter(
     (item: { name: string; projectId: string }) =>
-      projectId ? projectId === item.projectId : null
+      projectId ? projectId == item.projectId : null
   );
 
   const [open, setOpen] = useState(false);
@@ -44,9 +49,31 @@ export const TheConstructionQueue = ({
   const handleCloseEditItemModal = () => {
     setOpenEditItemModal(false);
   };
+
+  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
+
+  const handleClickOpenDeleteItemModal = (elementId: number) => {
+    setOpenDeleteItemModal(true);
+    setElementId(elementId);
+  };
+
+  const handleCloseDeleteItemModal = () => {
+    setOpenDeleteItemModal(false);
+  };
+
+  const deleteItemsDispatch = () => {
+    deleteSection({ queueId: elementId });
+    deleteQueue({ queueId: elementId });
+    setOpenDeleteItemModal(false);
+  };
+
   return (
     <div>
-      <GridItems items={queueItems} editAction={handleClickOpenEditItemModal} />
+      <GridItems
+        items={queueItems}
+        editAction={handleClickOpenEditItemModal}
+        deleteAction={handleClickOpenDeleteItemModal}
+      />
       <div className={s.button}>
         <ItemModal
           Status={open}
@@ -64,6 +91,15 @@ export const TheConstructionQueue = ({
           dispatchNew={editQueue}
           label="Введите новое название проекта"
           elementId={elementId}
+        />
+        <DeleteModal
+          handler={handleCloseDeleteItemModal}
+          Title={'Вы действительно хотите удалить проект?'}
+          Text={
+            'Это повлечёт за собой удаление всех связанных с ней данных (очереди, секции и кровли)'
+          }
+          Status={openDeleteItemModal}
+          deleteItemsDispatch={deleteItemsDispatch}
         />
         <AddNewItemButton
           name="Добавить очередь"
@@ -88,6 +124,12 @@ let mapDispatchToProps = (dispatch: any) => {
     },
     editQueue: (data: any) => {
       dispatch(editQueue(data));
+    },
+    deleteQueue: (data: any) => {
+      dispatch(deleteQueue(data));
+    },
+    deleteSection: (data: any) => {
+      dispatch(deleteSection(data));
     },
   };
 };
