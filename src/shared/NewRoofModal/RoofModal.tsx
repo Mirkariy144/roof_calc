@@ -15,12 +15,18 @@ interface NewRoofModalProps {
   Status: boolean;
   handler: () => void;
   dispatchNew: (data: any) => void;
+  title: string;
+  text: string;
+  roofInfo?: { name?: string; squareMeters?: number; elementId: number };
 }
 
-export const NewRoofModal = ({
+export const RoofModal = ({
   Status,
   handler,
   dispatchNew,
+  title,
+  text,
+  roofInfo,
 }: NewRoofModalProps) => {
   const { projectId, queueId, sectionId } = useParams();
   const [roofLayers, setSelectedRoofLayers] = useState<any>([]);
@@ -43,22 +49,21 @@ export const NewRoofModal = ({
             queueId,
             projectId,
             roofLayers,
+            elementId: roofInfo?.elementId,
           });
           handler();
         },
       }}
     >
-      <DialogTitle>Создание слоя кровли</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Дайте название кровле и укажите квадратуру работ
-        </DialogContentText>
+        <DialogContentText>{text}</DialogContentText>
         <TextField
           autoFocus
           required
           margin="dense"
           name="text"
-          label="Название кровли"
+          label={roofInfo?.name || 'Название кровли'}
           type="text"
           variant="standard"
           fullWidth
@@ -68,7 +73,7 @@ export const NewRoofModal = ({
           required
           margin="dense"
           name="value"
-          label="Квадратура"
+          label={roofInfo?.squareMeters || 'Квадратура'}
           type="number"
           variant="standard"
           fullWidth

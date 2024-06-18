@@ -17,16 +17,13 @@ const MenuProps = {
 };
 
 export const SelectRoofLayers = ({ setSelectedRoofLayers }: any) => {
-  const [personName, setPersonName] = useState<string[]>([]);
+  const [roofLayer, setRoofLayer] = useState<string[]>([]);
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (event: SelectChangeEvent<typeof roofLayer>) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    );
+    setRoofLayer(typeof value === 'string' ? value.split(',') : value);
     const selectedRoofLayers = roofLayers.filter(
       (item: { name: string; layerId: number }) => value.includes(item.name)
     );
@@ -39,7 +36,7 @@ export const SelectRoofLayers = ({ setSelectedRoofLayers }: any) => {
         <Select
           multiple
           displayEmpty
-          value={personName}
+          value={roofLayer}
           onChange={handleChange}
           input={<OutlinedInput />}
           renderValue={(selected) => {

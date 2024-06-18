@@ -88,8 +88,8 @@ const ProjectsList = ({
         <ItemModal
           Status={openEditItemModal}
           handler={handleCloseEditItemModal}
-          Title="Изменение проекта"
-          Text="Изменение карточки проекта проект"
+          Title="Изменение карточки"
+          Text="Изменение карточки проекта"
           dispatchNew={editProject}
           label="Введите новое название проекта"
           elementId={elementId}

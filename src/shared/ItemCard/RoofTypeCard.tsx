@@ -7,15 +7,20 @@ import {
   Typography,
 } from '@mui/material';
 import React, { Fragment } from 'react';
+import { IconButtons } from '../button/IconButtons';
 
 export const RoofTypeCard = ({
   name,
   squareMeters,
   roofLayers,
+  elementId,
+  editAction,
 }: {
   name: string;
   squareMeters: number;
   roofLayers: { name: string; layerId: number }[];
+  elementId: number;
+  editAction: (elementId: number, name?: string, squareMeters?: number) => void;
 }) => {
   const roofLayersTypography = roofLayers.map(
     (item: { name: string; layerId: number }) => (
@@ -37,11 +42,19 @@ export const RoofTypeCard = ({
           {name}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {squareMeters}
+          {squareMeters} м2
         </Typography>
         {roofLayersTypography}
       </CardContent>
-      <CardActions></CardActions>
+      <CardActions>
+        <IconButtons
+          editAction={editAction}
+          elementId={elementId}
+          deleteAction={() => {}}
+          name={name}
+          squareMeters={squareMeters}
+        />
+      </CardActions>
     </Card>
   );
 

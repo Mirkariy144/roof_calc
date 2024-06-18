@@ -83,10 +83,10 @@ export const SectionsList = ({
         <ItemModal
           Status={openEditItemModal}
           handler={handleCloseEditItemModal}
-          Title="Изменение проекта"
-          Text="Изменение карточки проекта проект"
+          Title="Изменение карточки"
+          Text="Изменение карточки секции"
           dispatchNew={editSection}
-          label="Введите новое название проекта"
+          label="Введите новое название секции"
           elementId={elementId}
         />
         <DeleteModal

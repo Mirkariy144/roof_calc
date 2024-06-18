@@ -78,25 +78,25 @@ export const TheConstructionQueue = ({
         <ItemModal
           Status={open}
           handler={handleClose}
-          Title="Новыя очередь строительства"
+          Title="Новая очередь строительства"
           Text="Создайте новую очередь строительства"
           dispatchNew={addNewQueue}
-          label="Введите очередь строительства"
+          label="Введите название очереди строительства"
         />
         <ItemModal
           Status={openEditItemModal}
           handler={handleCloseEditItemModal}
-          Title="Изменение проекта"
-          Text="Изменение карточки проекта проект"
+          Title="Изменение карточки"
+          Text="Изменение карточки очереди строительства"
           dispatchNew={editQueue}
-          label="Введите новое название проекта"
+          label="Введите новое название очереди строительства"
           elementId={elementId}
         />
         <DeleteModal
           handler={handleCloseDeleteItemModal}
-          Title={'Вы действительно хотите удалить проект?'}
+          Title={'Вы действительно хотите удалить очередь?'}
           Text={
-            'Это повлечёт за собой удаление всех связанных с ней данных (очереди, секции и кровли)'
+            'Это повлечёт за собой удаление всех связанных с ней данных (секции и кровли)'
           }
           Status={openDeleteItemModal}
           deleteItemsDispatch={deleteItemsDispatch}
