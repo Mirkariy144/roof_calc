@@ -11,12 +11,14 @@ import {
   editSection,
 } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
+import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
 
 export const SectionsList = ({
   Sections,
   addNewSection,
   editSection,
   deleteSection,
+  deleteRoofType,
 }: any) => {
   const { queueId } = useParams();
 
@@ -61,6 +63,7 @@ export const SectionsList = ({
 
   const deleteItemsDispatch = () => {
     deleteSection({ sectionId: elementId });
+    deleteRoofType({ sectionId: elementId });
     setOpenDeleteItemModal(false);
   };
 
@@ -124,6 +127,9 @@ let mapDispatchToProps = (dispatch: any) => {
     },
     deleteSection: (data: any) => {
       dispatch(deleteSection(data));
+    },
+    deleteRoofType: (data: any) => {
+      dispatch(deleteRoofType(data));
     },
   };
 };

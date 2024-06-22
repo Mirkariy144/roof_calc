@@ -12,6 +12,7 @@ import {
 } from '../shared/store/reducer/theConstructionQueueReducer';
 import { deleteSection } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
+import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
 
 export const TheConstructionQueue = ({
   ProjectQueue,
@@ -19,6 +20,7 @@ export const TheConstructionQueue = ({
   editQueue,
   deleteQueue,
   deleteSection,
+  deleteRoofType,
 }: any) => {
   const { projectId } = useParams();
 
@@ -64,6 +66,7 @@ export const TheConstructionQueue = ({
   const deleteItemsDispatch = () => {
     deleteSection({ queueId: elementId });
     deleteQueue({ queueId: elementId });
+    deleteRoofType({ queueId: elementId });
     setOpenDeleteItemModal(false);
   };
 
@@ -130,6 +133,10 @@ let mapDispatchToProps = (dispatch: any) => {
     },
     deleteSection: (data: any) => {
       dispatch(deleteSection(data));
+    },
+
+    deleteRoofType: (data: any) => {
+      dispatch(deleteRoofType(data));
     },
   };
 };

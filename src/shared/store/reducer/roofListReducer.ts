@@ -32,9 +32,24 @@ const roofListReducer = createSlice({
         return item;
       });
     },
+
+    deleteRoofType: (state: any, data: { payload: any }) => {
+      state.layers = state.layers.filter((item: any) => {
+        if (data.payload.projectId) {
+          return item.projectId !== data.payload.projectId;
+        } else if (data.payload.queueId) {
+          return item.queueId !== data.payload.queueId;
+        } else if (data.payload.sectionId) {
+          return item.sectionId !== data.payload.sectionId;
+        } else if (data.payload.roofTypeId) {
+          return item.roofTypeId !== data.payload.roofTypeId;
+        }
+      });
+    },
   },
 });
 
-export const { addRoofType, editRoofType } = roofListReducer.actions;
+export const { addRoofType, editRoofType, deleteRoofType } =
+  roofListReducer.actions;
 
 export default roofListReducer.reducer;

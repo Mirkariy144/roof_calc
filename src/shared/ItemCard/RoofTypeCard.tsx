@@ -15,12 +15,14 @@ export const RoofTypeCard = ({
   roofLayers,
   elementId,
   editAction,
+  deleteAction,
 }: {
   name: string;
   squareMeters: number;
   roofLayers: { name: string; layerId: number }[];
   elementId: number;
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
+  deleteAction: (elementId: number) => void;
 }) => {
   const roofLayersTypography = roofLayers.map(
     (item: { name: string; layerId: number }) => (
@@ -50,7 +52,7 @@ export const RoofTypeCard = ({
         <IconButtons
           editAction={editAction}
           elementId={elementId}
-          deleteAction={() => {}}
+          deleteAction={deleteAction}
           name={name}
           squareMeters={squareMeters}
         />

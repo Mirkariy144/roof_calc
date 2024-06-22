@@ -6,9 +6,14 @@ import { roofLayers } from './../NewRoofModal/roofLayers';
 interface GridItemsProps {
   items: [];
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
+  deleteAction: (elementId: number) => void;
 }
 
-export const GridRoofTypes = ({ items, editAction }: GridItemsProps) => {
+export const GridRoofTypes = ({
+  items,
+  editAction,
+  deleteAction,
+}: GridItemsProps) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
@@ -42,6 +47,7 @@ export const GridRoofTypes = ({ items, editAction }: GridItemsProps) => {
                 squareMeters={item.squareMeters}
                 roofLayers={item.roofLayers}
                 editAction={editAction}
+                deleteAction={deleteAction}
               />
             </Grid>
           )

@@ -5,12 +5,19 @@ import s from '../app/appStyles/App.module.css';
 import { useParams } from 'react-router-dom';
 import {
   addRoofType,
+  deleteRoofType,
   editRoofType,
 } from '../shared/store/reducer/roofListReducer';
 import { connect } from 'react-redux';
 import { GridRoofTypes } from '../shared/GridItems/GridRoofTypes';
+import { DeleteModal } from '../shared/Modal/DeleteModal';
 
-const RoofList = ({ RoofList, addNewRoofType, editRoofType }: any) => {
+const RoofList = ({
+  RoofList,
+  addNewRoofType,
+  editRoofType,
+  deleteRoofType,
+}: any) => {
   const { sectionId } = useParams();
 
   const roofItems = RoofList.layers.filter((item: { sectionId: string }) =>
@@ -52,11 +59,30 @@ const RoofList = ({ RoofList, addNewRoofType, editRoofType }: any) => {
     setOpenEditRoofModal(false);
   };
 
+  const [openDeleteRoofTypeModal, setOpenDeleteRoofTypeModal] = useState(false);
+
+  const [elementId, setElementId] = useState(0);
+
+  const handleClickOpenDeleteRoofTypeModal = (elementId: number) => {
+    setOpenDeleteRoofTypeModal(true);
+    setElementId(elementId);
+  };
+
+  const handleCloseDeleteRoofTypeModal = () => {
+    setOpenDeleteRoofTypeModal(false);
+  };
+
+  const deleteItemsDispatch = () => {
+    deleteRoofType({ roofTypeId: elementId });
+    setOpenDeleteRoofTypeModal(false);
+  };
+
   return (
     <Fragment>
       <GridRoofTypes
         items={roofItems}
         editAction={handleClickOpenEditRoofModal}
+        deleteAction={handleClickOpenDeleteRoofTypeModal}
       />
       <div className={s.button}>
         <RoofModal
@@ -73,6 +99,13 @@ const RoofList = ({ RoofList, addNewRoofType, editRoofType }: any) => {
           title="Редактирование слоя кровли"
           text="Дайте название кровле и укажите квадратуру работ"
           roofInfo={editRoofInfo}
+        />
+        <DeleteModal
+          Status={openDeleteRoofTypeModal}
+          handler={handleCloseDeleteRoofTypeModal}
+          deleteItemsDispatch={deleteItemsDispatch}
+          Title="Удаление слоя кровли"
+          Text="Вы действительно хотите удалить слои кровли?"
         />
         <AddNewItemButton
           name="Добавить кровлю"
@@ -98,6 +131,9 @@ let mapDispatchToProps = (dispatch: any) => {
 
     editRoofType: (data: any) => {
       dispatch(editRoofType(data));
+    },
+    deleteRoofType: (data: any) => {
+      dispatch(deleteRoofType(data));
     },
   };
 };
