@@ -18,6 +18,11 @@ const roofListReducer = createSlice({
         roofTypeId: ++idChecker,
         roofLayers: data.payload.roofLayers,
       });
+      data.payload.roofLayers.forEach((item: any) => {
+        if (item.composition) {
+          item.composition.scopeOfWork(data.payload.squareMeters * 1, 3, 25);
+        }
+      });
     },
     editRoofType: (state: any, data: { payload: any }) => {
       state.layers = state.layers.map((item: any) => {

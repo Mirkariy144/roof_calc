@@ -1,4 +1,20 @@
-export const roofLayers = [
+interface roofLayersTypes {
+  name: string;
+  layerId: number;
+  composition?: {
+    name1: string;
+    name2: string;
+    name1Value?: number;
+    name2Value?: number;
+    scopeOfWork(
+      squareMeters: number,
+      lowerPoint: number,
+      upperPoint: number
+    ): void;
+  };
+}
+
+export const roofLayers: roofLayersTypes[] = [
   {
     name: 'Уклонообразующий слой из керамзита',
     layerId: 1,
@@ -10,10 +26,11 @@ export const roofLayers = [
         lowerPoint: number,
         upperPoint: number
       ) {
-        let averageThickness = ((upperPoint - lowerPoint) / 3) * 2;
+        let averageThickness = (((upperPoint - lowerPoint) / 3) * 2) / 100;
         let keramzitArea = squareMeters * averageThickness;
         let tape = squareMeters;
-        return { keramzitArea, tape };
+        this.name1Value = keramzitArea;
+        this.name2Value = tape;
       },
     },
   },
