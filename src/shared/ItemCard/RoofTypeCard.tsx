@@ -24,32 +24,32 @@ export const RoofTypeCard = ({
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
   deleteAction: (elementId: number) => void;
 }) => {
-  const roofLayersTypography = roofLayers.map(
-    (item: {
-      name: string;
-      layerId: number;
-      composition?: {
-        name1: string;
-        name2: string;
-        name1Value?: number;
-        name2Value?: number;
-      };
-    }) => (
-      <Typography
-        sx={{ fontSize: 14 }}
-        color="text.secondary"
-        gutterBottom
-        key={item.layerId}
-      >
-        {item.composition
-          ? item.composition.name1 + '  ' + item.composition.name1Value
-          : item.name}
-        {item.composition
-          ? item.composition.name2 + ' ' + item.composition.name2Value
-          : null}
-      </Typography>
-    )
-  );
+  const roofLayersTypography = roofLayers.map((item: any) => {
+    if (item.composition) {
+      let materials = Object.values(item.composition);
+      return materials.map((item: any) => (
+        <Typography
+          sx={{ fontSize: 14 }}
+          color="text.secondary"
+          gutterBottom
+          key={item}
+        >
+          {item}
+        </Typography>
+      ));
+    } else {
+      return (
+        <Typography
+          sx={{ fontSize: 14 }}
+          color="text.secondary"
+          gutterBottom
+          key={item.layerId}
+        >
+          {item.name}
+        </Typography>
+      );
+    }
+  });
 
   const card = (
     <Card>

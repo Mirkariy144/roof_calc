@@ -9,6 +9,12 @@ const roofListReducer = createSlice({
   },
   reducers: {
     addRoofType: (state: any, data: { payload: any }) => {
+      data.payload.roofLayers.forEach((item: any) => {
+        if (item.composition) {
+          item.composition.scopeOfWork(data.payload.squareMeters * 1, 3, 25);
+          delete item.composition.scopeOfWork;
+        }
+      });
       state.layers.push({
         name: data.payload.text,
         squareMeters: data.payload.squareMeters * 1,
@@ -17,11 +23,6 @@ const roofListReducer = createSlice({
         projectId: data.payload.projectId * 1,
         roofTypeId: ++idChecker,
         roofLayers: data.payload.roofLayers,
-      });
-      data.payload.roofLayers.forEach((item: any) => {
-        if (item.composition) {
-          item.composition.scopeOfWork(data.payload.squareMeters * 1, 3, 25);
-        }
       });
     },
     editRoofType: (state: any, data: { payload: any }) => {

@@ -17,6 +17,8 @@ const MenuProps = {
 };
 
 export const SelectRoofLayers = ({ setSelectedRoofLayers }: any) => {
+  var _ = require('lodash');
+
   const [roofLayer, setRoofLayer] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof roofLayer>) => {
@@ -24,8 +26,10 @@ export const SelectRoofLayers = ({ setSelectedRoofLayers }: any) => {
       target: { value },
     } = event;
     setRoofLayer(typeof value === 'string' ? value.split(',') : value);
-    const selectedRoofLayers = roofLayers.filter(
-      (item: { name: string; layerId: number }) => value.includes(item.name)
+    const selectedRoofLayers = _.cloneDeep(
+      roofLayers.filter((item: { name: string; layerId: number }) =>
+        value.includes(item.name)
+      )
     );
     setSelectedRoofLayers(selectedRoofLayers);
   };
