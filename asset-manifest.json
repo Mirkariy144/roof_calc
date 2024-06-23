@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/roof_calc/static/css/main.4e6a8a10.css",
-    "main.js": "/roof_calc/static/js/main.52aa2d31.js",
+    "main.css": "/roof_calc/static/css/main.e705cc25.css",
+    "main.js": "/roof_calc/static/js/main.bf868f35.js",
     "static/js/453.83a0a608.chunk.js": "/roof_calc/static/js/453.83a0a608.chunk.js",
     "index.html": "/roof_calc/index.html",
-    "main.4e6a8a10.css.map": "/roof_calc/static/css/main.4e6a8a10.css.map",
-    "main.52aa2d31.js.map": "/roof_calc/static/js/main.52aa2d31.js.map",
+    "main.e705cc25.css.map": "/roof_calc/static/css/main.e705cc25.css.map",
+    "main.bf868f35.js.map": "/roof_calc/static/js/main.bf868f35.js.map",
     "453.83a0a608.chunk.js.map": "/roof_calc/static/js/453.83a0a608.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4e6a8a10.css",
-    "static/js/main.52aa2d31.js"
+    "static/css/main.e705cc25.css",
+    "static/js/main.bf868f35.js"
   ]
 }
