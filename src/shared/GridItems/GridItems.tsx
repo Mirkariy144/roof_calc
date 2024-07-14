@@ -13,6 +13,7 @@ export const GridItems = ({
   editAction,
   deleteAction,
 }: GridItemsProps) => {
+  debugger;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
@@ -20,7 +21,7 @@ export const GridItems = ({
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         sx={{ display: 'flex', justifyContent: 'center' }}
       >
-        {items.map(
+        {items?.map(
           (item: {
             name: string;
             projectId: number;

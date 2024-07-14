@@ -9,15 +9,14 @@ import {
 } from '@mui/material';
 import React, { FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { axiosNewProject, axiosGetProjects } from '../API/Api';
 
 interface NewItemModalProps {
   handler: () => void;
   Title?: string;
   Text?: string;
   Status: boolean;
-  dispatchNew: (data: any) => void;
   label: string;
-  elementId?: number;
 }
 
 export const ItemModal = ({
@@ -25,9 +24,7 @@ export const ItemModal = ({
   Title,
   Text,
   Status,
-  dispatchNew,
   label,
-  elementId,
 }: NewItemModalProps) => {
   const { projectId, queueId, sectionId } = useParams();
 
@@ -66,7 +63,7 @@ export const ItemModal = ({
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries((formData as any).entries());
           const text = formJson.text;
-          dispatchNew({ name: text, ...checkParams(), elementId });
+          axiosNewProject(text);
           handler();
         },
       }}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from '../app/appStyles/App.module.css';
 import { connect } from 'react-redux';
 import { GridItems } from '../shared/GridItems/GridItems';
@@ -13,6 +13,7 @@ import { deleteQueue } from '../shared/store/reducer/theConstructionQueueReducer
 import { deleteSection } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
 import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
+import { axiosDeleteProject, axiosGetProjects } from '../shared/API/Api';
 
 const ProjectsList = ({
   Projects,
@@ -31,6 +32,14 @@ const ProjectsList = ({
   deleteSection: any;
   deleteRoofType: any;
 }) => {
+  const [projects, setProjects] = useState<[]>([]);
+
+  useEffect(() => {
+    axiosGetProjects().then((data) => {
+      setProjects(data);
+    });
+  }, [projects]);
+
   const [openNewItem, setOpenNewItem] = useState(false);
 
   const [openEditItemModal, setOpenEditItemModal] = useState(false);
@@ -66,17 +75,17 @@ const ProjectsList = ({
   };
 
   const deleteItemsDispatch = () => {
-    deleteProject({ projectId: elementId });
-    deleteSection({ projectId: elementId });
-    deleteQueue({ projectId: elementId });
-    deleteRoofType({ projectId: elementId });
+    axiosDeleteProject(elementId).then((data) => {
+      setProjects([]);
+    });
+
     setOpenDeleteItemModal(false);
   };
 
   return (
     <div>
       <GridItems
-        items={Projects.projects}
+        items={projects}
         editAction={handleClickOpenEditItemModal}
         deleteAction={handleClickOpenDeleteItemModal}
       />
@@ -86,7 +95,6 @@ const ProjectsList = ({
           handler={handleCloseNewItemModal}
           Title="Новый проект"
           Text="Создайте новый проект"
-          dispatchNew={addNewProject}
           label="Введите название проекта"
         />
         <ItemModal
@@ -94,9 +102,9 @@ const ProjectsList = ({
           handler={handleCloseEditItemModal}
           Title="Изменение карточки"
           Text="Изменение карточки проекта"
-          dispatchNew={editProject}
+          // dispatchNew={editProject}
           label="Введите новое название проекта"
-          elementId={elementId}
+          // elementId={elementId}
         />
         <DeleteModal
           handler={handleCloseDeleteItemModal}
