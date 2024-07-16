@@ -13,7 +13,12 @@ import { deleteQueue } from '../shared/store/reducer/theConstructionQueueReducer
 import { deleteSection } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
 import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
-import { axiosDeleteProject, axiosGetProjects } from '../shared/API/Api';
+import {
+  axiosDeleteProject,
+  axiosGetProjects,
+  axiosEditProject,
+  axiosNewProject,
+} from '../shared/API/Api';
 
 const ProjectsList = ({
   Projects,
@@ -34,12 +39,6 @@ const ProjectsList = ({
 }) => {
   const [projects, setProjects] = useState<[]>([]);
 
-  useEffect(() => {
-    axiosGetProjects().then((data) => {
-      setProjects(data);
-    });
-  }, [projects]);
-
   const [openNewItem, setOpenNewItem] = useState(false);
 
   const [openEditItemModal, setOpenEditItemModal] = useState(false);
@@ -47,6 +46,12 @@ const ProjectsList = ({
   const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
 
   const [elementId, setElementId] = useState(0);
+
+  useEffect(() => {
+    axiosGetProjects().then((data) => {
+      setProjects(data);
+    });
+  }, [openEditItemModal, openDeleteItemModal, openNewItem]);
 
   const handleClickOpenNewItemModal = () => {
     setOpenNewItem(true);
@@ -74,11 +79,8 @@ const ProjectsList = ({
     setOpenDeleteItemModal(false);
   };
 
-  const deleteItemsDispatch = () => {
-    axiosDeleteProject(elementId).then((data) => {
-      setProjects([]);
-    });
-
+  const deleteItem = () => {
+    axiosDeleteProject(elementId);
     setOpenDeleteItemModal(false);
   };
 
@@ -96,15 +98,16 @@ const ProjectsList = ({
           Title="Новый проект"
           Text="Создайте новый проект"
           label="Введите название проекта"
+          API={axiosNewProject}
         />
         <ItemModal
           Status={openEditItemModal}
           handler={handleCloseEditItemModal}
           Title="Изменение карточки"
           Text="Изменение карточки проекта"
-          // dispatchNew={editProject}
           label="Введите новое название проекта"
-          // elementId={elementId}
+          projectId={elementId}
+          API={axiosEditProject}
         />
         <DeleteModal
           handler={handleCloseDeleteItemModal}
@@ -113,7 +116,7 @@ const ProjectsList = ({
             'Это повлечёт за собой удаление всех связанных с ним данных (очереди, секции и кровли)'
           }
           Status={openDeleteItemModal}
-          deleteItemsDispatch={deleteItemsDispatch}
+          deleteItem={deleteItem}
         />
         <AddNewItemButton
           name="Добавить проект"

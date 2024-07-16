@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridItems } from '../shared/GridItems/GridItems';
 import { ItemModal } from '../shared/Modal/ItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
@@ -12,6 +12,12 @@ import {
 } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
 import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
+import {
+  axiosDeleteSection,
+  axiosEditSection,
+  axiosGetSections,
+  axiosNewSection,
+} from '../shared/API/Api';
 
 export const SectionsList = ({
   Sections,
@@ -20,26 +26,40 @@ export const SectionsList = ({
   deleteSection,
   deleteRoofType,
 }: any) => {
-  const { queueId } = useParams();
+  const { projectId, queueId } = useParams();
 
-  const sectionItems = Sections.sections.filter(
-    (item: { name: string; projectId: string; queueId: string }) =>
-      queueId ? queueId == item.queueId : null
-  );
+  const projectParamsToNumber = Number(projectId);
 
-  const [open, setOpen] = useState(false);
+  const queueParamsToNumber = Number(queueId);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [sectionItems, setSectionItems] = useState<[]>([]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [openNewItem, setOpenNewItem] = useState(false);
 
   const [openEditItemModal, setOpenEditItemModal] = useState(false);
 
   const [elementId, setElementId] = useState(0);
+
+  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
+
+  useEffect(() => {
+    axiosGetSections(queueParamsToNumber).then((data) => {
+      setSectionItems(data);
+    });
+  }, [
+    openEditItemModal,
+    openDeleteItemModal,
+    openNewItem,
+    queueParamsToNumber,
+  ]);
+
+  const handleClickOpen = () => {
+    setOpenNewItem(true);
+  };
+
+  const handleClose = () => {
+    setOpenNewItem(false);
+  };
 
   const handleClickOpenEditItemModal = (elementId: number) => {
     setOpenEditItemModal(true);
@@ -50,8 +70,6 @@ export const SectionsList = ({
     setOpenEditItemModal(false);
   };
 
-  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
-
   const handleClickOpenDeleteItemModal = (elementId: number) => {
     setOpenDeleteItemModal(true);
     setElementId(elementId);
@@ -61,9 +79,8 @@ export const SectionsList = ({
     setOpenDeleteItemModal(false);
   };
 
-  const deleteItemsDispatch = () => {
-    deleteSection({ sectionId: elementId });
-    deleteRoofType({ sectionId: elementId });
+  const deleteItem = () => {
+    axiosDeleteSection(elementId);
     setOpenDeleteItemModal(false);
   };
 
@@ -76,21 +93,23 @@ export const SectionsList = ({
       />
       <div className={s.button}>
         <ItemModal
-          Status={open}
+          Status={openNewItem}
           handler={handleClose}
           Title="Новыя секция"
           Text="Создайте новую секцию"
-          dispatchNew={addNewSection}
           label="Обозначьте секцию"
+          projectId={projectParamsToNumber}
+          queueId={queueParamsToNumber}
+          API={axiosNewSection}
         />
         <ItemModal
           Status={openEditItemModal}
           handler={handleCloseEditItemModal}
           Title="Изменение карточки"
           Text="Изменение карточки секции"
-          dispatchNew={editSection}
           label="Введите новое название секции"
-          elementId={elementId}
+          sectionId={elementId}
+          API={axiosEditSection}
         />
         <DeleteModal
           handler={handleCloseDeleteItemModal}
@@ -99,7 +118,7 @@ export const SectionsList = ({
             'Это повлечёт за собой удаление всех связанных с ней данных (кровли)'
           }
           Status={openDeleteItemModal}
-          deleteItemsDispatch={deleteItemsDispatch}
+          deleteItem={deleteItem}
         />
         <AddNewItemButton
           name="Добавить секцию"

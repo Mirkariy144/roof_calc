@@ -13,7 +13,6 @@ export const GridItems = ({
   editAction,
   deleteAction,
 }: GridItemsProps) => {
-  debugger;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid

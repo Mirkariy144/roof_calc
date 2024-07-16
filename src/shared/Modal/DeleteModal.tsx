@@ -13,7 +13,7 @@ interface NewItemModalProps {
   Title?: string;
   Text?: string;
   Status: boolean;
-  deleteItemsDispatch: () => void;
+  deleteItem: () => void;
 }
 
 export const DeleteModal = ({
@@ -21,7 +21,7 @@ export const DeleteModal = ({
   Title,
   Text,
   Status,
-  deleteItemsDispatch,
+  deleteItem,
 }: NewItemModalProps) => {
   return (
     <Dialog
@@ -39,7 +39,7 @@ export const DeleteModal = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handler}>Отмена</Button>
-        <Button onClick={deleteItemsDispatch}>Да</Button>
+        <Button onClick={deleteItem}>Да</Button>
       </DialogActions>
     </Dialog>
   );

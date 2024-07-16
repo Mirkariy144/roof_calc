@@ -17,6 +17,15 @@ interface NewItemModalProps {
   Text?: string;
   Status: boolean;
   label: string;
+  API: (
+    text: string,
+    projectId?: number,
+    queueId?: number,
+    sectionId?: number
+  ) => Promise<any>;
+  projectId?: number;
+  queueId?: number;
+  sectionId?: number;
 }
 
 export const ItemModal = ({
@@ -25,28 +34,11 @@ export const ItemModal = ({
   Text,
   Status,
   label,
+  API,
+  projectId,
+  queueId,
+  sectionId,
 }: NewItemModalProps) => {
-  const { projectId, queueId, sectionId } = useParams();
-
-  const checkParams = () => {
-    if (sectionId) {
-      return {
-        projectId: projectId,
-        queueId: queueId,
-        sectionId: sectionId,
-      };
-    } else if (queueId) {
-      return {
-        projectId: projectId,
-        queueId: queueId,
-      };
-    } else if (projectId) {
-      return {
-        projectId: projectId,
-      };
-    }
-  };
-
   return (
     <Dialog
       open={Status}
@@ -63,7 +55,7 @@ export const ItemModal = ({
           const formData = new FormData(event.currentTarget);
           const formJson = Object.fromEntries((formData as any).entries());
           const text = formJson.text;
-          axiosNewProject(text);
+          API(text, projectId, queueId, sectionId);
           handler();
         },
       }}

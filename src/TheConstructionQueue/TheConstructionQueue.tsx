@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridItems } from '../shared/GridItems/GridItems';
 import { ItemModal } from '../shared/Modal/ItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
@@ -13,6 +13,12 @@ import {
 import { deleteSection } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
 import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
+import {
+  axiosDeleteQueue,
+  axiosGetQueues,
+  axiosNewQueue,
+  axiosEditQueue,
+} from '../shared/API/Api';
 
 export const TheConstructionQueue = ({
   ProjectQueue,
@@ -22,25 +28,32 @@ export const TheConstructionQueue = ({
   deleteSection,
   deleteRoofType,
 }: any) => {
-  const { projectId } = useParams();
+  const { projectId } = useParams<string>();
 
-  const queueItems = ProjectQueue.projectQueue.filter(
-    (item: { name: string; projectId: string }) =>
-      projectId ? projectId == item.projectId : null
-  );
+  const paramsNumber = Number(projectId);
 
-  const [open, setOpen] = useState(false);
+  const [queueItems, setQueueItems] = useState<[]>([]);
+
+  const [openNewItem, setOpenNewItem] = useState(false);
 
   const [openEditItemModal, setOpenEditItemModal] = useState(false);
 
   const [elementId, setElementId] = useState(0);
 
+  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
+
+  useEffect(() => {
+    axiosGetQueues(paramsNumber).then((data) => {
+      setQueueItems(data);
+    });
+  }, [openEditItemModal, openDeleteItemModal, openNewItem, paramsNumber]);
+
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenNewItem(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenNewItem(false);
   };
 
   const handleClickOpenEditItemModal = (elementId: number) => {
@@ -52,8 +65,6 @@ export const TheConstructionQueue = ({
     setOpenEditItemModal(false);
   };
 
-  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
-
   const handleClickOpenDeleteItemModal = (elementId: number) => {
     setOpenDeleteItemModal(true);
     setElementId(elementId);
@@ -63,10 +74,8 @@ export const TheConstructionQueue = ({
     setOpenDeleteItemModal(false);
   };
 
-  const deleteItemsDispatch = () => {
-    deleteSection({ queueId: elementId });
-    deleteQueue({ queueId: elementId });
-    deleteRoofType({ queueId: elementId });
+  const deleteItem = () => {
+    axiosDeleteQueue(elementId);
     setOpenDeleteItemModal(false);
   };
 
@@ -79,21 +88,22 @@ export const TheConstructionQueue = ({
       />
       <div className={s.button}>
         <ItemModal
-          Status={open}
+          Status={openNewItem}
           handler={handleClose}
           Title="Новая очередь строительства"
           Text="Создайте новую очередь строительства"
-          dispatchNew={addNewQueue}
+          projectId={paramsNumber}
           label="Введите название очереди строительства"
+          API={axiosNewQueue}
         />
         <ItemModal
           Status={openEditItemModal}
           handler={handleCloseEditItemModal}
           Title="Изменение карточки"
           Text="Изменение карточки очереди строительства"
-          dispatchNew={editQueue}
           label="Введите новое название очереди строительства"
-          elementId={elementId}
+          queueId={elementId}
+          API={axiosEditQueue}
         />
         <DeleteModal
           handler={handleCloseDeleteItemModal}
@@ -102,7 +112,7 @@ export const TheConstructionQueue = ({
             'Это повлечёт за собой удаление всех связанных с ней данных (секции и кровли)'
           }
           Status={openDeleteItemModal}
-          deleteItemsDispatch={deleteItemsDispatch}
+          deleteItem={deleteItem}
         />
         <AddNewItemButton
           name="Добавить очередь"
