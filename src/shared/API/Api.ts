@@ -1,3 +1,4 @@
+import { roofLayers } from './../NewRoofModal/roofLayers';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -66,5 +67,66 @@ export const axiosDeleteSection = async (sectionId: number) => {
 };
 export const axiosEditSection = async (name: string, sectionId?: number) => {
   const response = await instance.put(`section/${sectionId}`, { name });
+  return response.data;
+};
+
+// API к типам кровли
+
+export const axiosGetRoofTypes = async (roofTypeId: number) => {
+  const response = await instance.get(`rooflist/${roofTypeId}`);
+  return response.data;
+};
+
+export const axiosNewRoofType = async (
+  name: string,
+  projectId?: number,
+  queueId?: number,
+  sectionId?: number,
+  roofLayers?: any,
+  squareMeters?: number,
+  upperPoint?: number,
+  lowerPoint?: number
+) => {
+  const response = await instance.post(`rooflist`, {
+    name,
+    projectId,
+    queueId,
+    sectionId,
+    roofLayers,
+    squareMeters,
+    upperPoint,
+    lowerPoint,
+  });
+  debugger;
+  return response.data;
+};
+
+export const axiosDeleteRoofType = async (roofTypeId: number) => {
+  const response = await instance.delete(`rooflist/${roofTypeId}`);
+  return response.data;
+};
+export const axiosEditRoofType = async (
+  name: string,
+  projectId?: number,
+  queueId?: number,
+  sectionId?: number,
+  roofLayers?: any,
+  squareMeters?: number,
+  upperPoint?: number,
+  lowerPoint?: number,
+  roofId?: number
+) => {
+  debugger;
+  const response = await instance.put(`rooflist/${roofId}`, {
+    name,
+    projectId,
+    queueId,
+    sectionId,
+    roofLayers,
+    squareMeters,
+    upperPoint,
+    lowerPoint,
+    roofId,
+  });
   return response.data;
 };

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { RoofModal } from '../shared/NewRoofModal/RoofModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
 import s from '../app/appStyles/App.module.css';
@@ -11,6 +11,12 @@ import {
 import { connect } from 'react-redux';
 import { GridRoofTypes } from '../shared/GridItems/GridRoofTypes';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
+import {
+  axiosDeleteRoofType,
+  axiosEditRoofType,
+  axiosGetRoofTypes,
+  axiosNewRoofType,
+} from '../shared/API/Api';
 
 const RoofList = ({
   RoofList,
@@ -20,21 +26,39 @@ const RoofList = ({
 }: any) => {
   const { sectionId } = useParams();
 
-  const roofItems = RoofList.layers.filter((item: { sectionId: string }) =>
-    sectionId ? sectionId == item.sectionId : null
-  );
+  const sectionParamsToNumber = Number(sectionId);
 
-  const [open, setOpen] = useState(false);
+  const [roofItems, setRoofItems] = useState<[]>([]);
+
+  const [openNewItem, setOpenNewItem] = useState(false);
+
+  const [openEditRoofModal, setOpenEditRoofModal] = useState(false);
+
+  const [openDeleteRoofTypeModal, setOpenDeleteRoofTypeModal] = useState(false);
+
+  const [elementId, setElementId] = useState(0);
+
+  useEffect(() => {
+    axiosGetRoofTypes(sectionParamsToNumber).then((data) => {
+      data.map((item: any) => {
+        item.roofLayers = Object.values(JSON.parse(item.roofLayers));
+      });
+      setRoofItems(data);
+    });
+  }, [
+    openEditRoofModal,
+    openDeleteRoofTypeModal,
+    sectionParamsToNumber,
+    openNewItem,
+  ]);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenNewItem(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenNewItem(false);
   };
-
-  const [openEditRoofModal, setOpenEditRoofModal] = useState(false);
 
   const [editRoofInfo, setEditRoofInfo] = useState<{
     name?: string;
@@ -45,6 +69,8 @@ const RoofList = ({
     squareMeters: 0,
     elementId: 0,
   });
+
+  console.log(editRoofInfo);
 
   const handleClickOpenEditRoofModal = (
     elementId: number,
@@ -59,10 +85,6 @@ const RoofList = ({
     setOpenEditRoofModal(false);
   };
 
-  const [openDeleteRoofTypeModal, setOpenDeleteRoofTypeModal] = useState(false);
-
-  const [elementId, setElementId] = useState(0);
-
   const handleClickOpenDeleteRoofTypeModal = (elementId: number) => {
     setOpenDeleteRoofTypeModal(true);
     setElementId(elementId);
@@ -72,8 +94,8 @@ const RoofList = ({
     setOpenDeleteRoofTypeModal(false);
   };
 
-  const deleteItemsDispatch = () => {
-    deleteRoofType({ roofTypeId: elementId });
+  const deleteItem = () => {
+    axiosDeleteRoofType(elementId);
     setOpenDeleteRoofTypeModal(false);
   };
 
@@ -86,16 +108,16 @@ const RoofList = ({
       />
       <div className={s.button}>
         <RoofModal
-          Status={open}
+          Status={openNewItem}
           handler={handleClose}
-          dispatchNew={addNewRoofType}
+          API={axiosNewRoofType}
           title="Создание слоя кровли"
           text="Дайте название кровле и укажите квадратуру работ"
         />
         <RoofModal
           Status={openEditRoofModal}
           handler={handleCloseEditRoofModal}
-          dispatchNew={editRoofType}
+          API={axiosEditRoofType}
           title="Редактирование слоя кровли"
           text="Дайте название кровле и укажите квадратуру работ"
           roofInfo={editRoofInfo}
@@ -103,7 +125,7 @@ const RoofList = ({
         <DeleteModal
           Status={openDeleteRoofTypeModal}
           handler={handleCloseDeleteRoofTypeModal}
-          deleteItemsDispatch={deleteItemsDispatch}
+          deleteItem={deleteItem}
           Title="Удаление слоя кровли"
           Text="Вы действительно хотите удалить слои кровли?"
         />

@@ -27,7 +27,7 @@ export const GridRoofTypes = ({
             projectId: number;
             queueId: number;
             sectionId: number;
-            roofTypeId: number;
+            roofId: number;
             squareMeters: number;
             roofLayers: [];
           }) => (
@@ -39,10 +39,10 @@ export const GridRoofTypes = ({
                 justifyContent: 'center',
                 flexWrap: 'wrap',
               }}
-              key={item.roofTypeId}
+              key={item.roofId}
             >
               <RoofTypeCard
-                elementId={item.roofTypeId}
+                elementId={item.roofId}
                 name={item.name}
                 squareMeters={item.squareMeters}
                 roofLayers={item.roofLayers}

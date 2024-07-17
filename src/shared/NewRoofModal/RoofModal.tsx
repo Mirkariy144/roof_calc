@@ -14,7 +14,17 @@ import { SelectRoofLayers } from './SelectRoofLayers';
 interface NewRoofModalProps {
   Status: boolean;
   handler: () => void;
-  dispatchNew: (data: any) => void;
+  API: (
+    name: string,
+    projectId?: number,
+    queueId?: number,
+    sectionId?: number,
+    roofLayers?: any,
+    squareMeters?: number,
+    upperPoint?: number,
+    lowerPoint?: number,
+    roofId?: number
+  ) => void;
   title: string;
   text: string;
   roofInfo?: { name?: string; squareMeters?: number; elementId: number };
@@ -23,12 +33,19 @@ interface NewRoofModalProps {
 export const RoofModal = ({
   Status,
   handler,
-  dispatchNew,
+  API,
   title,
   text,
   roofInfo,
 }: NewRoofModalProps) => {
   const { projectId, queueId, sectionId } = useParams();
+  const projectIdNum = Number(projectId);
+  const queueIdNum = Number(queueId);
+  const sectionIdNum = Number(sectionId);
+
+  let upperPoint: number = 27;
+  let lowerPoint: number = 3;
+
   const [roofLayers, setSelectedRoofLayers] = useState<any>([]);
   return (
     <Dialog
@@ -42,15 +59,17 @@ export const RoofModal = ({
           const formJson = Object.fromEntries((formData as any).entries());
           const text = formJson.text;
           const squareMeters = formJson.value;
-          dispatchNew({
+          API(
             text,
-            squareMeters,
-            sectionId,
-            queueId,
-            projectId,
+            projectIdNum,
+            queueIdNum,
+            sectionIdNum,
             roofLayers,
-            elementId: roofInfo?.elementId,
-          });
+            squareMeters,
+            upperPoint,
+            lowerPoint,
+            roofInfo?.elementId
+          );
           handler();
         },
       }}

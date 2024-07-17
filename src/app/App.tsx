@@ -13,10 +13,10 @@ function App() {
         <Route path="/" element={<ProjectsListContainer />} />
         <Route path=":projectId" element={<TheConstructionQueueContainer />} />
         <Route path=":projectId/:queueId" element={<SectionListContainer />} />
-        {/* <Route
+        <Route
           path=":projectId/:queueId/:sectionId"
           element={<RoofListContainer />}
-        /> */}
+        />
       </Routes>
     </div>
   );
