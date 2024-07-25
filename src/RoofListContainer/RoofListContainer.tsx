@@ -3,12 +3,6 @@ import { RoofModal } from '../shared/NewRoofModal/RoofModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
 import s from '../app/appStyles/App.module.css';
 import { useParams } from 'react-router-dom';
-import {
-  addRoofType,
-  deleteRoofType,
-  editRoofType,
-} from '../shared/store/reducer/roofListReducer';
-import { connect } from 'react-redux';
 import { GridRoofTypes } from '../shared/GridItems/GridRoofTypes';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
 import {
@@ -18,7 +12,7 @@ import {
   axiosNewRoofType,
 } from '../shared/API/Api';
 
-const RoofList = ({
+export const RoofListContainer = ({
   RoofList,
   addNewRoofType,
   editRoofType,
@@ -138,29 +132,3 @@ const RoofList = ({
     </Fragment>
   );
 };
-
-let mapStateToProps = (state: any) => {
-  return {
-    RoofList: state.RoofList,
-  };
-};
-
-let mapDispatchToProps = (dispatch: any) => {
-  return {
-    addNewRoofType: (data: any) => {
-      dispatch(addRoofType(data));
-    },
-
-    editRoofType: (data: any) => {
-      dispatch(editRoofType(data));
-    },
-    deleteRoofType: (data: any) => {
-      dispatch(deleteRoofType(data));
-    },
-  };
-};
-
-export const RoofListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RoofList);

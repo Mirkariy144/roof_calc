@@ -17,7 +17,7 @@ const MenuProps = {
 };
 
 export const SelectRoofLayers = ({ setSelectedRoofLayers }: any) => {
-  var _ = require('lodash');
+  const _ = require('lodash');
 
   const [roofLayer, setRoofLayer] = useState<string[]>([]);
 
@@ -36,7 +36,7 @@ export const SelectRoofLayers = ({ setSelectedRoofLayers }: any) => {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+      <FormControl sx={{ m: 1, width: 500, mt: 3 }}>
         <Select
           multiple
           displayEmpty
