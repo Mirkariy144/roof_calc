@@ -4,14 +4,7 @@ import { ItemModal } from '../shared/Modal/ItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
 import s from '../app/appStyles/App.module.css';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
-import {
-  addSection,
-  deleteSection,
-  editSection,
-} from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
-import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
 import {
   axiosDeleteSection,
   axiosEditSection,
@@ -19,7 +12,7 @@ import {
   axiosNewSection,
 } from '../shared/API/Api';
 
-export const SectionsList = ({
+export const SectionsListContainer = ({
   Sections,
   addNewSection,
   editSection,
@@ -129,31 +122,3 @@ export const SectionsList = ({
     </div>
   );
 };
-
-let mapStateToProps = (state: any) => {
-  return {
-    Sections: state.Sections,
-  };
-};
-
-let mapDispatchToProps = (dispatch: any) => {
-  return {
-    addNewSection: (data: any) => {
-      dispatch(addSection(data));
-    },
-    editSection: (data: any) => {
-      dispatch(editSection(data));
-    },
-    deleteSection: (data: any) => {
-      dispatch(deleteSection(data));
-    },
-    deleteRoofType: (data: any) => {
-      dispatch(deleteRoofType(data));
-    },
-  };
-};
-
-export const SectionListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SectionsList);

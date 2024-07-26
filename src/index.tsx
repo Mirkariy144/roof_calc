@@ -5,8 +5,6 @@ import 'normalize.css';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './app/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,9 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <HashRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <App />
     </HashRouter>
   </React.StrictMode>
 );

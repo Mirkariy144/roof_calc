@@ -3,9 +3,31 @@ import React from 'react';
 import { ItemCard } from '../ItemCard/ItemCard';
 
 interface GridItemsProps {
-  items: [];
+  items: {
+    name: string;
+    projectId: number;
+    queueId?: number;
+    sectionId?: number;
+  }[];
   editAction: (elementId: number) => void;
   deleteAction: (elementId: number) => void;
+}
+
+const itemsStyle = {
+  cardGrid: { display: 'flex', justifyContent: 'center' },
+  itemInfo: {
+    padding: '10px',
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+};
+
+interface ItemCardTypes {
+  name: string;
+  projectId: number;
+  queueId?: number;
+  sectionId?: number;
 }
 
 export const GridItems = ({
@@ -13,52 +35,31 @@ export const GridItems = ({
   editAction,
   deleteAction,
 }: GridItemsProps) => {
+  const cardElementId = (item: ItemCardTypes) => {
+    return item.sectionId
+      ? item.sectionId
+      : item.queueId
+      ? item.queueId
+      : item.projectId;
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
         container
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        sx={{ display: 'flex', justifyContent: 'center' }}
+        sx={itemsStyle.cardGrid}
       >
-        {items?.map(
-          (item: {
-            name: string;
-            projectId: number;
-            queueId?: number;
-            sectionId?: number;
-            roofTypeId?: number;
-          }) => (
-            <Grid
-              item
-              sx={{
-                padding: '10px',
-                display: 'flex',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-              }}
-              key={
-                item.sectionId
-                  ? item.sectionId
-                  : item.queueId
-                  ? item.queueId
-                  : item.projectId
-              }
-            >
-              <ItemCard
-                name={item.name}
-                elementId={
-                  item.sectionId
-                    ? item.sectionId
-                    : item.queueId
-                    ? item.queueId
-                    : item.projectId
-                }
-                editAction={editAction}
-                deleteAction={deleteAction}
-              />
-            </Grid>
-          )
-        )}
+        {items?.map((item) => (
+          <Grid item sx={itemsStyle.itemInfo} key={cardElementId(item)}>
+            <ItemCard
+              name={item.name}
+              elementId={cardElementId(item)}
+              editAction={editAction}
+              deleteAction={deleteAction}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

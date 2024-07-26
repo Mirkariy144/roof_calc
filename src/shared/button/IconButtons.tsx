@@ -1,7 +1,6 @@
 import { DeleteForeverOutlined, EditOutlined } from '@mui/icons-material';
-import { Button, IconButton, Stack } from '@mui/material';
-import React, { Fragment } from 'react';
-import { useParams } from 'react-router-dom';
+import { IconButton, Stack } from '@mui/material';
+import React from 'react';
 
 interface IconButtonsProps {
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
@@ -20,17 +19,14 @@ export const IconButtons = ({
 }: IconButtonsProps) => {
   return (
     <Stack direction="row" spacing={1}>
-      <IconButton aria-label="Удалить">
-        <DeleteForeverOutlined
-          sx={{ color: 'red' }}
-          onClick={() => deleteAction(elementId)}
-        />
+      <IconButton aria-label="Удалить" onClick={() => deleteAction(elementId)}>
+        <DeleteForeverOutlined sx={{ color: 'red' }} />
       </IconButton>
-      <IconButton aria-label="Отредактировать">
-        <EditOutlined
-          color="primary"
-          onClick={() => editAction(elementId, name, squareMeters)}
-        />
+      <IconButton
+        aria-label="Отредактировать"
+        onClick={() => editAction(elementId, name, squareMeters)}
+      >
+        <EditOutlined color="primary" />
       </IconButton>
     </Stack>
   );

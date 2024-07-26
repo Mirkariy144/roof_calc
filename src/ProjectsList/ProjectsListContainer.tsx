@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import s from '../app/appStyles/App.module.css';
-import { connect } from 'react-redux';
 import { GridItems } from '../shared/GridItems/GridItems';
 import { ItemModal } from '../shared/Modal/ItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
-import {
-  addProject,
-  deleteProject,
-  editProject,
-} from '../shared/store/reducer/projectReducer';
-import { deleteQueue } from '../shared/store/reducer/theConstructionQueueReducer';
-import { deleteSection } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
-import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
 import {
   axiosDeleteProject,
   axiosGetProjects,
@@ -20,32 +11,22 @@ import {
   axiosNewProject,
 } from '../shared/API/Api';
 
-const ProjectsList = ({
-  Projects,
-  addNewProject,
-  editProject,
-  deleteProject,
-  deleteQueue,
-  deleteSection,
-  deleteRoofType,
-}: {
-  Projects: any;
-  addNewProject: any;
-  editProject: any;
-  deleteProject: any;
-  deleteQueue: any;
-  deleteSection: any;
-  deleteRoofType: any;
-}) => {
-  const [projects, setProjects] = useState<[]>([]);
+interface projectsItems {
+  name: string;
+  projectId: number;
+}
 
-  const [openNewItem, setOpenNewItem] = useState(false);
+export const ProjectsListContainer = () => {
+  const [projects, setProjects] = useState<projectsItems[]>([]);
 
-  const [openEditItemModal, setOpenEditItemModal] = useState(false);
+  const [openNewItem, setOpenNewItem] = useState<boolean>(false);
 
-  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
+  const [openEditItemModal, setOpenEditItemModal] = useState<boolean>(false);
 
-  const [elementId, setElementId] = useState(0);
+  const [openDeleteItemModal, setOpenDeleteItemModal] =
+    useState<boolean>(false);
+
+  const [elementId, setElementId] = useState<number>(0);
 
   useEffect(() => {
     axiosGetProjects().then((data) => {
@@ -127,37 +108,3 @@ const ProjectsList = ({
     </div>
   );
 };
-
-let mapStateToProps = (state: any) => {
-  return {
-    Projects: state.Projects,
-  };
-};
-
-let mapDispatchToProps = (dispatch: any) => {
-  return {
-    addNewProject: (data: any) => {
-      dispatch(addProject(data));
-    },
-    editProject: (data: any) => {
-      dispatch(editProject(data));
-    },
-    deleteProject: (data: any) => {
-      dispatch(deleteProject(data));
-    },
-    deleteQueue: (data: any) => {
-      dispatch(deleteQueue(data));
-    },
-    deleteSection: (data: any) => {
-      dispatch(deleteSection(data));
-    },
-    deleteRoofType: (data: any) => {
-      dispatch(deleteRoofType(data));
-    },
-  };
-};
-
-export const ProjectsListContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectsList);

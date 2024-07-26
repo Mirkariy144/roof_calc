@@ -7,9 +7,7 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import React, { FormEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { axiosNewProject, axiosGetProjects } from '../API/Api';
+import React from 'react';
 
 interface NewItemModalProps {
   handler: () => void;
@@ -22,7 +20,7 @@ interface NewItemModalProps {
     projectId?: number,
     queueId?: number,
     sectionId?: number
-  ) => Promise<any>;
+  ) => Promise<void>;
   projectId?: number;
   queueId?: number;
   sectionId?: number;

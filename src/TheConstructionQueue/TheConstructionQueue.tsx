@@ -4,15 +4,7 @@ import { ItemModal } from '../shared/Modal/ItemModal';
 import { AddNewItemButton } from '../shared/button/AddNewItemButton';
 import s from '../app/appStyles/App.module.css';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
-import {
-  addQueue,
-  deleteQueue,
-  editQueue,
-} from '../shared/store/reducer/theConstructionQueueReducer';
-import { deleteSection } from '../shared/store/reducer/sectionsReducer';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
-import { deleteRoofType } from '../shared/store/reducer/roofListReducer';
 import {
   axiosDeleteQueue,
   axiosGetQueues,
@@ -20,7 +12,7 @@ import {
   axiosEditQueue,
 } from '../shared/API/Api';
 
-export const TheConstructionQueue = ({
+export const TheConstructionQueueContainer = ({
   ProjectQueue,
   addNewQueue,
   editQueue,
@@ -123,35 +115,3 @@ export const TheConstructionQueue = ({
     </div>
   );
 };
-
-let mapStateToProps = (state: any) => {
-  return {
-    ProjectQueue: state.ProjectQueue,
-  };
-};
-
-let mapDispatchToProps = (dispatch: any) => {
-  return {
-    addNewQueue: (data: any) => {
-      dispatch(addQueue(data));
-    },
-    editQueue: (data: any) => {
-      dispatch(editQueue(data));
-    },
-    deleteQueue: (data: any) => {
-      dispatch(deleteQueue(data));
-    },
-    deleteSection: (data: any) => {
-      dispatch(deleteSection(data));
-    },
-
-    deleteRoofType: (data: any) => {
-      dispatch(deleteRoofType(data));
-    },
-  };
-};
-
-export const TheConstructionQueueContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TheConstructionQueue);
