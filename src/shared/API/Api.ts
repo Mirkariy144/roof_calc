@@ -97,7 +97,6 @@ export const axiosNewRoofType = async (
     upperPoint,
     lowerPoint,
   });
-  debugger;
   return response.data;
 };
 
@@ -116,7 +115,6 @@ export const axiosEditRoofType = async (
   lowerPoint?: number,
   roofId?: number
 ) => {
-  debugger;
   const response = await instance.put(`rooflist/${roofId}`, {
     name,
     projectId,
