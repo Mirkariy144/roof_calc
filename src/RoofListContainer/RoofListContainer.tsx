@@ -12,30 +12,61 @@ import {
   axiosNewRoofType,
 } from '../shared/API/Api';
 
-export const RoofListContainer = ({
-  RoofList,
-  addNewRoofType,
-  editRoofType,
-  deleteRoofType,
-}: any) => {
+interface axiosItemsTypes {
+  name: string;
+  roofLayers: any;
+  projectId: number;
+  sectionId: number;
+  queueId: number;
+  roofId: number;
+  squareMeters: number;
+}
+
+interface compositionTypes {
+  [key: string]: string;
+}
+
+interface roofLayersTypes {
+  composition: compositionTypes;
+  name: string;
+  layerId: number;
+}
+
+export interface roofItemsTypes {
+  name: string;
+  roofLayers: roofLayersTypes[];
+  projectId: number;
+  sectionId: number;
+  queueId: number;
+  roofId: number;
+  squareMeters: number;
+}
+
+export const RoofListContainer = () => {
   const { sectionId } = useParams();
 
   const sectionParamsToNumber = Number(sectionId);
 
-  const [roofItems, setRoofItems] = useState<[]>([]);
+  const [roofItems, setRoofItems] = useState<roofItemsTypes[]>([]);
 
-  const [openNewItem, setOpenNewItem] = useState(false);
+  const [openNewItem, setOpenNewItem] = useState<boolean>(false);
 
-  const [openEditRoofModal, setOpenEditRoofModal] = useState(false);
+  const [openEditRoofModal, setOpenEditRoofModal] = useState<boolean>(false);
 
-  const [openDeleteRoofTypeModal, setOpenDeleteRoofTypeModal] = useState(false);
+  const [openDeleteRoofTypeModal, setOpenDeleteRoofTypeModal] =
+    useState<boolean>(false);
 
-  const [elementId, setElementId] = useState(0);
+  const [elementId, setElementId] = useState<number>(0);
 
   useEffect(() => {
     axiosGetRoofTypes(sectionParamsToNumber).then((data) => {
-      data.map((item: any) => {
-        item.roofLayers = Object.values(JSON.parse(item.roofLayers));
+      data.map((item: axiosItemsTypes) => {
+        debugger;
+        let parsed = JSON.parse(item.roofLayers);
+        debugger;
+        let zog_zog = Object.values(parsed);
+        item.roofLayers = zog_zog;
+        debugger;
       });
       setRoofItems(data);
     });

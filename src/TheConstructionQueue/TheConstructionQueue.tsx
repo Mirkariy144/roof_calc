@@ -12,27 +12,27 @@ import {
   axiosEditQueue,
 } from '../shared/API/Api';
 
-export const TheConstructionQueueContainer = ({
-  ProjectQueue,
-  addNewQueue,
-  editQueue,
-  deleteQueue,
-  deleteSection,
-  deleteRoofType,
-}: any) => {
+interface queueItemsTypes {
+  name: string;
+  queueId: number;
+  projectId: number;
+}
+
+export const TheConstructionQueueContainer = () => {
   const { projectId } = useParams<string>();
 
   const paramsNumber = Number(projectId);
 
-  const [queueItems, setQueueItems] = useState<[]>([]);
+  const [queueItems, setQueueItems] = useState<queueItemsTypes[]>([]);
 
-  const [openNewItem, setOpenNewItem] = useState(false);
+  const [openNewItem, setOpenNewItem] = useState<boolean>(false);
 
-  const [openEditItemModal, setOpenEditItemModal] = useState(false);
+  const [openEditItemModal, setOpenEditItemModal] = useState<boolean>(false);
 
-  const [elementId, setElementId] = useState(0);
+  const [elementId, setElementId] = useState<number>(0);
 
-  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
+  const [openDeleteItemModal, setOpenDeleteItemModal] =
+    useState<boolean>(false);
 
   useEffect(() => {
     axiosGetQueues(paramsNumber).then((data) => {

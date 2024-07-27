@@ -12,28 +12,30 @@ import {
   axiosNewSection,
 } from '../shared/API/Api';
 
-export const SectionsListContainer = ({
-  Sections,
-  addNewSection,
-  editSection,
-  deleteSection,
-  deleteRoofType,
-}: any) => {
+interface sectionItemsTypes {
+  name: string;
+  projectId: number;
+  queueId: number;
+  sectionId: number;
+}
+
+export const SectionsListContainer = () => {
   const { projectId, queueId } = useParams();
 
   const projectParamsToNumber = Number(projectId);
 
   const queueParamsToNumber = Number(queueId);
 
-  const [sectionItems, setSectionItems] = useState<[]>([]);
+  const [sectionItems, setSectionItems] = useState<sectionItemsTypes[]>([]);
 
-  const [openNewItem, setOpenNewItem] = useState(false);
+  const [openNewItem, setOpenNewItem] = useState<boolean>(false);
 
-  const [openEditItemModal, setOpenEditItemModal] = useState(false);
+  const [openEditItemModal, setOpenEditItemModal] = useState<boolean>(false);
 
-  const [elementId, setElementId] = useState(0);
+  const [elementId, setElementId] = useState<number>(0);
 
-  const [openDeleteItemModal, setOpenDeleteItemModal] = useState(false);
+  const [openDeleteItemModal, setOpenDeleteItemModal] =
+    useState<boolean>(false);
 
   useEffect(() => {
     axiosGetSections(queueParamsToNumber).then((data) => {
