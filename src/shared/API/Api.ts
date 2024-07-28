@@ -8,49 +8,49 @@ const instance = axios.create({
 // API к проектам
 export const axiosNewProject = async (name: string) => {
   const response = await instance.post('projects', { name });
-  return response.data;
+  return response;
 };
 
 export const axiosGetProjects = async () => {
   const response = await instance.get('projects');
-  return response.data;
+  return response;
 };
 
 export const axiosDeleteProject = async (projectId: number) => {
   const response = await instance.delete(`projects/${projectId}`);
-  return response.data;
+  return response;
 };
 
 export const axiosEditProject = async (name: string, projectId?: number) => {
   const response = await instance.put(`projects/${projectId}`, { name });
-  return response.data;
+  return response;
 };
 
 // Api к очередям
 
 export const axiosGetQueues = async (projectId: number) => {
   const response = await instance.get(`projectqueue/${projectId}`);
-  return response.data;
+  return response;
 };
 
 export const axiosNewQueue = async (name: string, projectId?: number) => {
   const response = await instance.post(`projectqueue`, { name, projectId });
-  return response.data;
+  return response;
 };
 export const axiosDeleteQueue = async (queueId: number) => {
   const response = await instance.delete(`projectqueue/${queueId}`);
-  return response.data;
+  return response;
 };
 export const axiosEditQueue = async (name: string, queueId?: number) => {
   const response = await instance.put(`projectqueue/${queueId}`, { name });
-  return response.data;
+  return response;
 };
 
 // API к секциям
 
 export const axiosGetSections = async (sectionId: number) => {
   const response = await instance.get(`section/${sectionId}`);
-  return response.data;
+  return response;
 };
 
 export const axiosNewSection = async (
@@ -59,22 +59,22 @@ export const axiosNewSection = async (
   queueId?: number
 ) => {
   const response = await instance.post(`section`, { name, projectId, queueId });
-  return response.data;
+  return response;
 };
 export const axiosDeleteSection = async (sectionId: number) => {
   const response = await instance.delete(`section/${sectionId}`);
-  return response.data;
+  return response;
 };
 export const axiosEditSection = async (name: string, sectionId?: number) => {
   const response = await instance.put(`section/${sectionId}`, { name });
-  return response.data;
+  return response;
 };
 
 // API к типам кровли
 
 export const axiosGetRoofTypes = async (roofTypeId: number) => {
   const response = await instance.get(`rooflist/${roofTypeId}`);
-  return response.data;
+  return response;
 };
 
 export const axiosNewRoofType = async (
@@ -97,12 +97,14 @@ export const axiosNewRoofType = async (
     upperPoint,
     lowerPoint,
   });
-  return response.data;
+  console.log(response);
+  console.log(response.data);
+  return response;
 };
 
 export const axiosDeleteRoofType = async (roofTypeId: number) => {
   const response = await instance.delete(`rooflist/${roofTypeId}`);
-  return response.data;
+  return response;
 };
 export const axiosEditRoofType = async (
   name: string,
@@ -126,5 +128,7 @@ export const axiosEditRoofType = async (
     lowerPoint,
     roofId,
   });
-  return response.data;
+  console.log(response);
+  console.log(response.data);
+  return response;
 };

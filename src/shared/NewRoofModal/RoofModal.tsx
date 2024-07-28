@@ -24,7 +24,7 @@ interface NewRoofModalProps {
     upperPoint?: number,
     lowerPoint?: number,
     roofId?: number
-  ) => void;
+  ) => any;
   title: string;
   text: string;
   roofInfo?: { name?: string; squareMeters?: number; elementId: number };

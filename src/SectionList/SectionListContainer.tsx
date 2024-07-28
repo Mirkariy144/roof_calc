@@ -39,7 +39,7 @@ export const SectionsListContainer = () => {
 
   useEffect(() => {
     axiosGetSections(queueParamsToNumber).then((data) => {
-      setSectionItems(data);
+      setSectionItems(data.data);
     });
   }, [
     openEditItemModal,

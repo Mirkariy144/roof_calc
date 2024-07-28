@@ -20,7 +20,7 @@ interface NewItemModalProps {
     projectId?: number,
     queueId?: number,
     sectionId?: number
-  ) => Promise<void>;
+  ) => Promise<any>;
   projectId?: number;
   queueId?: number;
   sectionId?: number;

@@ -30,7 +30,7 @@ export const ProjectsListContainer = () => {
 
   useEffect(() => {
     axiosGetProjects().then((data) => {
-      setProjects(data);
+      setProjects(data.data);
     });
   }, [openEditItemModal, openDeleteItemModal, openNewItem]);
 

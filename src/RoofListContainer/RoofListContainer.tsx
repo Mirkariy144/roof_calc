@@ -60,15 +60,7 @@ export const RoofListContainer = () => {
 
   useEffect(() => {
     axiosGetRoofTypes(sectionParamsToNumber).then((data) => {
-      data.map((item: axiosItemsTypes) => {
-        debugger;
-        let parsed = JSON.parse(item.roofLayers);
-        debugger;
-        let zog_zog = Object.values(parsed);
-        item.roofLayers = zog_zog;
-        debugger;
-      });
-      setRoofItems(data);
+      setRoofItems(data.data);
     });
   }, [
     openEditRoofModal,
@@ -94,8 +86,6 @@ export const RoofListContainer = () => {
     squareMeters: 0,
     elementId: 0,
   });
-
-  console.log(editRoofInfo);
 
   const handleClickOpenEditRoofModal = (
     elementId: number,
