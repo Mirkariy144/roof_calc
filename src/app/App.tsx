@@ -5,6 +5,8 @@ import { ProjectsListContainer } from '../ProjectsList/ProjectsListContainer';
 import { TheConstructionQueueContainer } from '../TheConstructionQueue/TheConstructionQueue';
 import { SectionsListContainer } from '../SectionList/SectionListContainer';
 import { RoofListContainer } from '../RoofListContainer/RoofListContainer';
+import Userfront, { LoginForm } from '@userfront/toolkit';
+import { RegistrationForm } from '../auth/RegistrationForm';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           path=":projectId/:queueId/:sectionId"
           element={<RoofListContainer />}
         />
+        <Route path="login" element={<LoginForm />} />
+        <Route path="registration" element={<RegistrationForm />} />
       </Routes>
     </div>
   );

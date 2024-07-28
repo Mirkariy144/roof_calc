@@ -1,9 +1,44 @@
+import Userfront from '@userfront/toolkit';
 import { roofLayers } from './../NewRoofModal/roofLayers';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
 const instance = axios.create({
+  // withCredentials: true,
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
   baseURL: 'http://localhost:3001/',
 });
+
+// API к логинизации и регистрации
+
+export const axiosLogin = async (email: string, password: string) => {
+  const response = await instance.post('auth/login', { email, password });
+  const data = response.data;
+  const token = jwt.sign(
+    { userId: data.userId },
+    'Пошёл ты на хуй мусор, я драм энд бэйс продюссер'
+  );
+  localStorage.setItem('token', token);
+};
+export const axiosRegistration = async (email: string, password: string) => {
+  const response = await instance.post('auth/registration', {
+    email,
+    password,
+  });
+  const data = response.data;
+  const token = jwt.sign(
+    { userId: data.userId },
+    'Пошёл ты на хуй мусор, я драм энд бэйс продюссер'
+  );
+  localStorage.setItem('token', token);
+};
+
+export const axiosLogout = async () => {
+  const response = await instance.delete('auth/logout');
+  return response;
+};
 
 // API к проектам
 export const axiosNewProject = async (name: string) => {
