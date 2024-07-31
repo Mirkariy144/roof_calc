@@ -2,8 +2,33 @@ import { roofLayers } from './../NewRoofModal/roofLayers';
 import axios from 'axios';
 
 const instance = axios.create({
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  },
   baseURL: 'http://localhost:3001/',
 });
+
+// API к юзерам (логинизация и регистрация пользователей)
+
+export const axiosRegistration = async (
+  email: string,
+  login: string,
+  password: string
+) => {
+  const response = await instance.post('registration', {
+    email,
+    login,
+    password,
+  });
+  return response;
+};
+
+export const axiosLogin = async (login: string, password: string) => {
+  const response = await instance.post('login', { login, password });
+  localStorage.setItem('token', response.data.token);
+  console.log(response.data.token);
+  return response;
+};
 
 // API к проектам
 export const axiosNewProject = async (name: string) => {

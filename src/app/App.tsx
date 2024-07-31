@@ -5,6 +5,8 @@ import { ProjectsListContainer } from '../ProjectsList/ProjectsListContainer';
 import { TheConstructionQueueContainer } from '../TheConstructionQueue/TheConstructionQueue';
 import { SectionsListContainer } from '../SectionList/SectionListContainer';
 import { RoofListContainer } from '../RoofListContainer/RoofListContainer';
+import { Registration } from '../registration/Registration';
+import { Login } from '../login/Login';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           path=":projectId/:queueId/:sectionId"
           element={<RoofListContainer />}
         />
+        <Route path="registration" element={<Registration />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </div>
   );
