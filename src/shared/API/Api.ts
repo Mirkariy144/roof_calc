@@ -28,7 +28,7 @@ export const axiosLogin = async (login: string, password: string) => {
     .post('login', { login, password })
     .then((data) => {
       localStorage.setItem('token', data.data.token);
-      instance.defaults.headers.Authorization = `Bearer ${data.data.token}`;
+      instance.defaults.headers.Authorization = data.data.token;
     });
 
   return response;
