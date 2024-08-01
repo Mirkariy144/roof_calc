@@ -1,9 +1,9 @@
-import { roofLayers } from './../NewRoofModal/roofLayers';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const instance = axios.create({
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    Authorization: localStorage.getItem('token'),
   },
   baseURL: 'http://localhost:3001/',
 });
@@ -24,9 +24,13 @@ export const axiosRegistration = async (
 };
 
 export const axiosLogin = async (login: string, password: string) => {
-  const response = await instance.post('login', { login, password });
-  localStorage.setItem('token', response.data.token);
-  console.log(response.data.token);
+  const response = await instance
+    .post('login', { login, password })
+    .then((data) => {
+      localStorage.setItem('token', data.data.token);
+      instance.defaults.headers.Authorization = `Bearer ${data.data.token}`;
+    });
+
   return response;
 };
 
