@@ -10,6 +10,11 @@ const instance = axios.create({
 
 // API к юзерам (логинизация и регистрация пользователей)
 
+export const axiosAuthCheker = async () => {
+  const response = await instance.post('auth');
+  return response;
+};
+
 export const axiosRegistration = async (
   email: string,
   login: string,
@@ -24,13 +29,9 @@ export const axiosRegistration = async (
 };
 
 export const axiosLogin = async (login: string, password: string) => {
-  const response = await instance
-    .post('login', { login, password })
-    .then((data) => {
-      localStorage.setItem('token', data.data.token);
-      instance.defaults.headers.Authorization = data.data.token;
-    });
-
+  const response = await instance.post('login', { login, password });
+  localStorage.setItem('token', response.data.token);
+  instance.defaults.headers.Authorization = response.data.token;
   return response;
 };
 
@@ -42,6 +43,7 @@ export const axiosNewProject = async (name: string) => {
 
 export const axiosGetProjects = async () => {
   const response = await instance.get('projects');
+  console.log(response);
   return response;
 };
 
