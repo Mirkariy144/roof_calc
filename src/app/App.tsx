@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import s from './appStyles/App.module.css';
 import { Route, Routes } from 'react-router-dom';
 import { ProjectsListContainer } from '../ProjectsList/ProjectsListContainer';
@@ -46,7 +46,14 @@ function App() {
           }
         />
         <Route path="registration" element={<Registration />} />
-        <Route path="login" element={<Login />} />
+        <Route
+          path="login"
+          element={
+            <AuthCheker>
+              <Login />
+            </AuthCheker>
+          }
+        />
       </Routes>
     </div>
   );

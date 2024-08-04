@@ -12,6 +12,7 @@ const instance = axios.create({
 
 export const axiosAuthCheker = async () => {
   const response = await instance.post('auth');
+  console.log(response);
   return response;
 };
 

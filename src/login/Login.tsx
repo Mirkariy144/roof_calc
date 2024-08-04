@@ -8,8 +8,10 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { axiosLogin } from '../shared/API/Api';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
+  const navigate = useNavigate();
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -18,6 +20,17 @@ export const Login = () => {
       setLogin(event.target.value);
     } else if (event.target.id === 'password') {
       setPassword(event.target.value);
+    }
+  };
+
+  const loginButton = async (login: string, password: string) => {
+    try {
+      const response = await axiosLogin(login, password);
+      if (response.status === 200) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -55,7 +68,7 @@ export const Login = () => {
         />
       </Box>
       <CardActions sx={{ justifyContent: 'center' }}>
-        <Button variant="outlined" onClick={() => axiosLogin(login, password)}>
+        <Button variant="outlined" onClick={() => loginButton(login, password)}>
           Войти
         </Button>
       </CardActions>
