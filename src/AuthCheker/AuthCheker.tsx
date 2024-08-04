@@ -27,7 +27,7 @@ export const AuthCheker = ({ children }: { children: React.ReactNode }) => {
   }, [navigate, chekStatus, location.pathname]);
 
   if (chekStatus === undefined || chekStatus !== 200) {
-    return <Login />; // или любой состояние загрузки
+    return <Login />;
   }
 
   return <>{children}</>;

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const instance = axios.create({
-  headers: {
-    Authorization: localStorage.getItem('token'),
-  },
+  withCredentials: true,
+  // headers: {
+  //   Authorization: localStorage.getItem('token'),
+  // },
   baseURL: 'http://localhost:3001/',
 });
 
@@ -12,7 +12,6 @@ const instance = axios.create({
 
 export const axiosAuthCheker = async () => {
   const response = await instance.post('auth');
-  console.log(response);
   return response;
 };
 
@@ -44,7 +43,6 @@ export const axiosNewProject = async (name: string) => {
 
 export const axiosGetProjects = async () => {
   const response = await instance.get('projects');
-  console.log(response);
   return response;
 };
 
@@ -129,8 +127,6 @@ export const axiosNewRoofType = async (
     upperPoint,
     lowerPoint,
   });
-  console.log(response);
-  console.log(response.data);
   return response;
 };
 
@@ -160,7 +156,5 @@ export const axiosEditRoofType = async (
     lowerPoint,
     roofId,
   });
-  console.log(response);
-  console.log(response.data);
   return response;
 };

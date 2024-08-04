@@ -46,14 +46,7 @@ function App() {
           }
         />
         <Route path="registration" element={<Registration />} />
-        <Route
-          path="login"
-          element={
-            <AuthCheker>
-              <Login />
-            </AuthCheker>
-          }
-        />
+        <Route path="login" element={<Login />} />
       </Routes>
     </div>
   );
