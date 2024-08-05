@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { axiosAuthCheker } from '../shared/API/Api';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Login } from '../login/Login';
-import { ProjectsListContainer } from '../ProjectsList/ProjectsListContainer';
 
 export const AuthCheker = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
-  const [chekStatus, setChekStatus] = useState<number | undefined>(undefined);
+  const [chekStatus, setChekStatus] = useState<number | undefined>();
   const location = useLocation();
 
   useEffect(() => {
@@ -14,12 +12,12 @@ export const AuthCheker = ({ children }: { children: React.ReactNode }) => {
       try {
         const data = await axiosAuthCheker();
         setChekStatus(data.status);
-        if (data.status === 200 && location.pathname === '/login') {
+        if (data.status === 200 && location.pathname === '/signIn') {
           navigate('/');
         }
       } catch (error) {
         console.error(error);
-        navigate('/login');
+        navigate('/signIn');
       }
     };
 
@@ -27,7 +25,7 @@ export const AuthCheker = ({ children }: { children: React.ReactNode }) => {
   }, [navigate, chekStatus, location.pathname]);
 
   if (chekStatus === undefined || chekStatus !== 200) {
-    return <Login />;
+    navigate('/signIn');
   }
 
   return <>{children}</>;

@@ -5,9 +5,8 @@ import { ProjectsListContainer } from '../ProjectsList/ProjectsListContainer';
 import { TheConstructionQueueContainer } from '../TheConstructionQueue/TheConstructionQueue';
 import { SectionsListContainer } from '../SectionList/SectionListContainer';
 import { RoofListContainer } from '../RoofListContainer/RoofListContainer';
-import { Registration } from '../registration/Registration';
-import { Login } from '../login/Login';
 import { AuthCheker } from '../AuthCheker/AuthCheker';
+import { SignIn } from '../SignIn/SignIn';
 
 function App() {
   return (
@@ -45,8 +44,7 @@ function App() {
             </AuthCheker>
           }
         />
-        <Route path="registration" element={<Registration />} />
-        <Route path="login" element={<Login />} />
+        <Route path="signIn" element={<SignIn />} />
       </Routes>
     </div>
   );
