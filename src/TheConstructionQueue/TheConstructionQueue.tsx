@@ -35,9 +35,15 @@ export const TheConstructionQueueContainer = () => {
     useState<boolean>(false);
 
   useEffect(() => {
-    axiosGetQueues(paramsNumber).then((data) => {
-      setQueueItems(data.data);
-    });
+    const getQueues = async () => {
+      try {
+        const data = await axiosGetQueues(paramsNumber);
+        setQueueItems(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getQueues();
   }, [openEditItemModal, openDeleteItemModal, openNewItem, paramsNumber]);
 
   const handleClickOpen = () => {

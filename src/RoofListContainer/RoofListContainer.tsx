@@ -59,9 +59,15 @@ export const RoofListContainer = () => {
   const [elementId, setElementId] = useState<number>(0);
 
   useEffect(() => {
-    axiosGetRoofTypes(sectionParamsToNumber).then((data) => {
-      setRoofItems(data.data);
-    });
+    const getRoofTypes = async () => {
+      try {
+        const data = await axiosGetRoofTypes(sectionParamsToNumber);
+        setRoofItems(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getRoofTypes();
   }, [
     openEditRoofModal,
     openDeleteRoofTypeModal,

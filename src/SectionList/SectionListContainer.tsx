@@ -38,9 +38,15 @@ export const SectionsListContainer = () => {
     useState<boolean>(false);
 
   useEffect(() => {
-    axiosGetSections(queueParamsToNumber).then((data) => {
-      setSectionItems(data.data);
-    });
+    const getSections = async () => {
+      try {
+        const data = await axiosGetSections(queueParamsToNumber);
+        setSectionItems(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getSections();
   }, [
     openEditItemModal,
     openDeleteItemModal,

@@ -29,9 +29,15 @@ export const ProjectsListContainer = () => {
   const [elementId, setElementId] = useState<number>(0);
 
   useEffect(() => {
-    axiosGetProjects().then((data) => {
-      setProjects(data.data);
-    });
+    const getProjects = async () => {
+      try {
+        const data = await axiosGetProjects();
+        setProjects(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getProjects();
   }, [openEditItemModal, openDeleteItemModal, openNewItem]);
 
   const handleClickOpenNewItemModal = () => {
