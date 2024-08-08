@@ -16,7 +16,6 @@ function App() {
     const checkAuth = async () => {
       try {
         const data = await axiosAuthCheker();
-        console.log(location);
         if (data.status === 200 && location.pathname === '/signIn') {
           navigate('/');
         }

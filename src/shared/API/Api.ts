@@ -15,6 +15,11 @@ export const axiosAuthCheker = async () => {
   return response;
 };
 
+export const axiosLogout = async () => {
+  const response = await instance.post('logout');
+  return response;
+};
+
 export const axiosRegistration = async (
   email: string,
   login: string,

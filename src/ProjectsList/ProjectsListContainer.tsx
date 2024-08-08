@@ -10,6 +10,7 @@ import {
   axiosEditProject,
   axiosNewProject,
 } from '../shared/API/Api';
+import { LogoutButton } from '../shared/button/LogoutButton';
 
 interface projectsItems {
   name: string;
@@ -72,7 +73,8 @@ export const ProjectsListContainer = () => {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <LogoutButton />
       <GridItems
         items={projects}
         editAction={handleClickOpenEditItemModal}
