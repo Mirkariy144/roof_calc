@@ -88,7 +88,6 @@ export const RoofModal = ({
           fullWidth
         />
         <TextField
-          autoFocus
           required
           margin="dense"
           name="value"

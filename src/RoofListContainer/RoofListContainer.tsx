@@ -11,6 +11,7 @@ import {
   axiosGetRoofTypes,
   axiosNewRoofType,
 } from '../shared/API/Api';
+import { JunctionModal } from '../shared/Modal/JunctionModal';
 
 interface axiosItemsTypes {
   name: string;
@@ -56,6 +57,8 @@ export const RoofListContainer = () => {
   const [openDeleteRoofTypeModal, setOpenDeleteRoofTypeModal] =
     useState<boolean>(false);
 
+  const [openJunctionModal, setOpenJunctionModal] = useState<boolean>(false);
+
   const [elementId, setElementId] = useState<number>(0);
 
   useEffect(() => {
@@ -73,6 +76,7 @@ export const RoofListContainer = () => {
     openDeleteRoofTypeModal,
     sectionParamsToNumber,
     openNewItem,
+    openJunctionModal,
   ]);
 
   const handleClickOpen = () => {
@@ -120,12 +124,17 @@ export const RoofListContainer = () => {
     setOpenDeleteRoofTypeModal(false);
   };
 
+  const handleNewJunctionModal = () => {
+    setOpenJunctionModal(!openJunctionModal);
+  };
+
   return (
     <Fragment>
       <GridRoofTypes
         items={roofItems}
         editAction={handleClickOpenEditRoofModal}
         deleteAction={handleClickOpenDeleteRoofTypeModal}
+        newJunctionAction={handleNewJunctionModal}
       />
       <div className={s.button}>
         <RoofModal
@@ -149,6 +158,10 @@ export const RoofListContainer = () => {
           deleteItem={deleteItem}
           Title="Удаление слоя кровли"
           Text="Вы действительно хотите удалить слои кровли?"
+        />
+        <JunctionModal
+          status={openJunctionModal}
+          handler={handleNewJunctionModal}
         />
         <AddNewItemButton
           name="Добавить кровлю"

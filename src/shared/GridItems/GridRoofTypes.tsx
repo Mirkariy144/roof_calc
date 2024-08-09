@@ -7,12 +7,14 @@ interface GridItemsProps {
   items: roofItemsTypes[];
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
   deleteAction: (elementId: number) => void;
+  newJunctionAction: () => void;
 }
 
 export const GridRoofTypes = ({
   items,
   editAction,
   deleteAction,
+  newJunctionAction,
 }: GridItemsProps) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -39,6 +41,7 @@ export const GridRoofTypes = ({
               roofLayers={item.roofLayers}
               editAction={editAction}
               deleteAction={deleteAction}
+              newJunctionAction={newJunctionAction}
             />
           </Grid>
         ))}

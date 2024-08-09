@@ -13,7 +13,7 @@ export const AddNewItemButton = ({
   variant,
 }: AddNewItemButtonProps) => {
   return (
-    <div>
+    <div style={{ marginBottom: '10px' }}>
       <Button variant={variant} onClick={handler}>
         {name}
       </Button>

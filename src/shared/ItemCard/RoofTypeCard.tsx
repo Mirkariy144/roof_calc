@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import React, { Fragment } from 'react';
 import { IconButtons } from '../button/IconButtons';
+import { AddNewItemButton } from '../button/AddNewItemButton';
 
 export const RoofTypeCard = ({
   name,
@@ -16,6 +17,7 @@ export const RoofTypeCard = ({
   elementId,
   editAction,
   deleteAction,
+  newJunctionAction,
 }: {
   name: string;
   squareMeters: number;
@@ -23,6 +25,7 @@ export const RoofTypeCard = ({
   elementId: number;
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
   deleteAction: (elementId: number) => void;
+  newJunctionAction: () => void;
 }) => {
   const roofLayersTypography = roofLayers.map((item: any) => {
     if (item.composition) {
@@ -63,6 +66,11 @@ export const RoofTypeCard = ({
         {roofLayersTypography}
       </CardContent>
       <CardActions>
+        <AddNewItemButton
+          name="Примыкание"
+          handler={newJunctionAction}
+          variant="outlined"
+        />
         <IconButtons
           editAction={editAction}
           elementId={elementId}
