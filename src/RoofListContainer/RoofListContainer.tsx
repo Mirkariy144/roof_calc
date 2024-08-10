@@ -11,7 +11,7 @@ import {
   axiosGetRoofTypes,
   axiosNewRoofType,
 } from '../shared/API/Api';
-import { JunctionModal } from '../shared/Modal/JunctionModal';
+import { JunctionModal } from '../shared/NewRoofModal/Junction/JunctionModal';
 
 interface axiosItemsTypes {
   name: string;
@@ -124,8 +124,8 @@ export const RoofListContainer = () => {
     setOpenDeleteRoofTypeModal(false);
   };
 
-  const handleNewJunctionModal = () => {
-    setOpenJunctionModal(!openJunctionModal);
+  const toggleNewJunctionModal = () => {
+    setOpenJunctionModal((prev) => !prev);
   };
 
   return (
@@ -134,7 +134,7 @@ export const RoofListContainer = () => {
         items={roofItems}
         editAction={handleClickOpenEditRoofModal}
         deleteAction={handleClickOpenDeleteRoofTypeModal}
-        newJunctionAction={handleNewJunctionModal}
+        newJunctionAction={toggleNewJunctionModal}
       />
       <div className={s.button}>
         <RoofModal
@@ -161,7 +161,7 @@ export const RoofListContainer = () => {
         />
         <JunctionModal
           status={openJunctionModal}
-          handler={handleNewJunctionModal}
+          handler={toggleNewJunctionModal}
         />
         <AddNewItemButton
           name="Добавить кровлю"
