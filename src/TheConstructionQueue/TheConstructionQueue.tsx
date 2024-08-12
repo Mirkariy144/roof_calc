@@ -31,6 +31,8 @@ export const TheConstructionQueueContainer = () => {
 
   const [elementId, setElementId] = useState<number>(0);
 
+  console.log(elementId);
+
   const [openDeleteItemModal, setOpenDeleteItemModal] =
     useState<boolean>(false);
 
@@ -100,7 +102,7 @@ export const TheConstructionQueueContainer = () => {
           Title="Изменение карточки"
           Text="Изменение карточки очереди строительства"
           label="Введите новое название очереди строительства"
-          queueId={elementId}
+          projectId={elementId}
           API={axiosEditQueue}
         />
         <DeleteModal

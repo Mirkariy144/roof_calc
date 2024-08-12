@@ -48,8 +48,12 @@ export const JunctionModal = ({ status, handler }: JunctionModalProps) => {
   //   </>
   // );
 
-  const addInfo = (index: number, value: string) => {
-    junctionLayers[index].visota = value;
+  const addInfo = (elementId: number, value: string) => {
+    setJunctionLayers((prevData: any) => {
+      prevData.filter((item: any) => item.uniqueId === elementId)[0].visota =
+        value;
+      return prevData;
+    });
   };
 
   const addNewLine = () => {
@@ -60,43 +64,49 @@ export const JunctionModal = ({ status, handler }: JunctionModalProps) => {
     setLine([]);
   };
 
+  const clearJunctionLayers = () => {
+    setJunctionLayers([]);
+  };
+
   return (
     <Dialog
       open={status}
       PaperProps={{
         component: 'form',
-        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const formJson = Object.fromEntries((formData as any).entries());
+        onSubmit: () => {
           handler();
           clearLine();
+          clearJunctionLayers();
         },
       }}
     >
       <DialogTitle>{'Текст'}</DialogTitle>
       <DialogContent id="lines">
         <DialogContentText>{'Текст'}</DialogContentText>
-        {line?.map((item, index) => (
-          <React.Fragment key={item.id}>
-            <SelectJunction
-              setJunctionLayers={setJunctionLayers}
-              junctionLayers={junctionLayers}
-            />
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              label="Примыкание"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                addInfo(index, event.target.value)
-              }
-            />
-          </React.Fragment>
-        ))}
+        {line?.map((item) => {
+          console.log(item);
+          return (
+            <React.Fragment key={item.id}>
+              <SelectJunction
+                setJunctionLayers={setJunctionLayers}
+                junctionLayers={junctionLayers}
+                uniqueId={item.id}
+              />
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                label="Примыкание"
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  addInfo(item.id, event.target.value)
+                }
+              />
+            </React.Fragment>
+          );
+        })}
       </DialogContent>
       <DialogActions>
         <IconButton aria-label="Добавить примыкание" onClick={addNewLine}>

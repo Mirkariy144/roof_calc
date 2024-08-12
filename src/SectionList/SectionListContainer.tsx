@@ -109,7 +109,7 @@ export const SectionsListContainer = () => {
           Title="Изменение карточки"
           Text="Изменение карточки секции"
           label="Введите новое название секции"
-          sectionId={elementId}
+          projectId={elementId}
           API={axiosEditSection}
         />
         <DeleteModal

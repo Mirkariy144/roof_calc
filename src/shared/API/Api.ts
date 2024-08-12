@@ -77,6 +77,7 @@ export const axiosDeleteQueue = async (queueId: number) => {
   return response;
 };
 export const axiosEditQueue = async (name: string, queueId?: number) => {
+  console.log(name, queueId);
   const response = await instance.put(`projectqueue/${queueId}`, { name });
   return response;
 };

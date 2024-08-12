@@ -17,9 +17,15 @@ const MenuProps = {
   },
 };
 
-export const SelectJunction = ({ setJunctionLayers, junctionLayers }: any) => {
+export const SelectJunction = ({
+  setJunctionLayers,
+  junctionLayers,
+  uniqueId,
+}: any) => {
   const _ = require('lodash');
 
+  const [elementUniqueId, setElementUniqueId] = useState<number>(uniqueId);
+  console.log(elementUniqueId);
   const [JunctionLayer, setJunctionLayer] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof JunctionLayer>) => {
@@ -32,7 +38,27 @@ export const SelectJunction = ({ setJunctionLayers, junctionLayers }: any) => {
         value.includes(item.name)
       )
     );
-    setJunctionLayers((prevData: any) => [...prevData, ...selectedRoofLayers]);
+    selectedRoofLayers[0].uniqueId = elementUniqueId;
+    setJunctionLayers((prevData: any) => {
+      let dataIndex = prevData.find(
+        (item: { name: string; layerId: number; uniqueId?: number }) =>
+          item.uniqueId === elementUniqueId
+      );
+      if (dataIndex) {
+        const newData = prevData.map(
+          (item: { name: string; layerId: number; uniqueId?: number }) => {
+            if (item.uniqueId === elementUniqueId) {
+              item = selectedRoofLayers[0];
+              return item;
+            }
+            return item;
+          }
+        );
+        return newData;
+      } else {
+        return [...prevData, ...selectedRoofLayers];
+      }
+    });
   };
 
   return (
@@ -52,11 +78,15 @@ export const SelectJunction = ({ setJunctionLayers, junctionLayers }: any) => {
           MenuProps={MenuProps}
           inputProps={{ 'aria-label': 'Without label' }}
         >
-          {JunctionLayers.map((item: { name: string; layerId: number }) => (
-            <MenuItem key={item.name} value={item.name}>
-              {item.name}
-            </MenuItem>
-          ))}
+          {JunctionLayers.map(
+            (item: { name: string; layerId: number; uniqueId?: number }) => {
+              return (
+                <MenuItem key={item.name} value={item.name}>
+                  {item.name}
+                </MenuItem>
+              );
+            }
+          )}
         </Select>
       </FormControl>
     </div>
