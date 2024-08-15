@@ -11,15 +11,21 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import React, { ReactElement, useState } from 'react';
 import { SelectJunction } from './SelectJunction';
+import { axiosAddJunction } from '../../API/Api';
 
 const _ = require('lodash');
 
 interface JunctionModalProps {
   status: boolean;
-  handler: () => void;
+  handler: (elementId?: number) => void;
+  elementId: number;
 }
 
-export const JunctionModal = ({ status, handler }: JunctionModalProps) => {
+export const JunctionModal = ({
+  status,
+  handler,
+  elementId,
+}: JunctionModalProps) => {
   const [line, setLine] = useState<any[]>([]);
 
   const [junctionLayers, setJunctionLayers] = useState<any>([]);
@@ -48,11 +54,17 @@ export const JunctionModal = ({ status, handler }: JunctionModalProps) => {
   //   </>
   // );
 
-  const addInfo = (elementId: number, value: string) => {
+  const addInfo = (elementId: number, eventTarget: any) => {
     setJunctionLayers((prevData: any) => {
-      prevData.filter((item: any) => item.uniqueId === elementId)[0].visota =
-        value;
-      return prevData;
+      if (eventTarget.name === 'height') {
+        prevData.filter((item: any) => item.uniqueId === elementId)[0].height =
+          eventTarget.value;
+        return prevData;
+      } else if (eventTarget.name === 'length') {
+        prevData.filter((item: any) => item.uniqueId === elementId)[0].length =
+          eventTarget.value;
+        return prevData;
+      }
     });
   };
 
@@ -74,6 +86,11 @@ export const JunctionModal = ({ status, handler }: JunctionModalProps) => {
       PaperProps={{
         component: 'form',
         onSubmit: () => {
+          const data = junctionLayers.map((item: any) => {
+            delete item.uniqueId;
+            return item;
+          });
+          axiosAddJunction(data, elementId);
           handler();
           clearLine();
           clearJunctionLayers();
@@ -96,12 +113,26 @@ export const JunctionModal = ({ status, handler }: JunctionModalProps) => {
                 autoFocus
                 required
                 margin="dense"
-                label="Примыкание"
+                label="Высота примыкания"
                 type="text"
                 fullWidth
                 variant="standard"
+                name="height"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  addInfo(item.id, event.target.value)
+                  addInfo(item.id, event.target)
+                }
+              />
+              <TextField
+                autoFocus
+                required
+                margin="dense"
+                label="Длина примыкания"
+                type="text"
+                fullWidth
+                variant="standard"
+                name="length"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  addInfo(item.id, event.target)
                 }
               />
             </React.Fragment>
@@ -112,7 +143,7 @@ export const JunctionModal = ({ status, handler }: JunctionModalProps) => {
         <IconButton aria-label="Добавить примыкание" onClick={addNewLine}>
           <AddIcon color="primary" />
         </IconButton>
-        <Button onClick={handler}>Отмена</Button>
+        <Button onClick={() => handler()}>Отмена</Button>
         <Button type="submit">Submit</Button>
       </DialogActions>
     </Dialog>

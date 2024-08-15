@@ -7,7 +7,7 @@ interface GridItemsProps {
   items: roofItemsTypes[];
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
   deleteAction: (elementId: number) => void;
-  newJunctionAction: () => void;
+  newJunctionAction: (elementId: number) => void;
 }
 
 export const GridRoofTypes = ({

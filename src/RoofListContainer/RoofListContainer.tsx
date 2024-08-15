@@ -124,8 +124,9 @@ export const RoofListContainer = () => {
     setOpenDeleteRoofTypeModal(false);
   };
 
-  const toggleNewJunctionModal = () => {
+  const toggleNewJunctionModal = (elementId?: number) => {
     setOpenJunctionModal((prev) => !prev);
+    setElementId(elementId ? elementId : 0);
   };
 
   return (
@@ -162,6 +163,7 @@ export const RoofListContainer = () => {
         <JunctionModal
           status={openJunctionModal}
           handler={toggleNewJunctionModal}
+          elementId={elementId}
         />
         <AddNewItemButton
           name="Добавить кровлю"

@@ -25,7 +25,7 @@ export const RoofTypeCard = ({
   elementId: number;
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
   deleteAction: (elementId: number) => void;
-  newJunctionAction: () => void;
+  newJunctionAction: (elementId: number) => void;
 }) => {
   const roofLayersTypography = roofLayers.map((item: any) => {
     if (item.composition) {
@@ -70,6 +70,7 @@ export const RoofTypeCard = ({
           name="Примыкание"
           handler={newJunctionAction}
           variant="outlined"
+          elementId={elementId}
         />
         <IconButtons
           editAction={editAction}

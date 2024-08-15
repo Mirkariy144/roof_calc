@@ -164,3 +164,8 @@ export const axiosEditRoofType = async (
   });
   return response;
 };
+
+export const axiosAddJunction = async (junctions: any, roofId: number) => {
+  const response = await instance.put(`junctions/${roofId}`, { junctions });
+  return response;
+};
