@@ -85,21 +85,46 @@ export const JunctionModal = ({
       open={status}
       PaperProps={{
         component: 'form',
-        onSubmit: () => {
+        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          const formJson = Object.fromEntries((formData as any).entries());
+          const name = formJson.name;
+          const junctionLength = formJson.junctionLength;
           const data = junctionLayers.map((item: any) => {
             delete item.uniqueId;
             return item;
           });
-          axiosAddJunction(data, elementId);
+          axiosAddJunction(name, junctionLength, data, elementId);
           handler();
           clearLine();
           clearJunctionLayers();
         },
       }}
     >
-      <DialogTitle>{'Текст'}</DialogTitle>
+      <DialogTitle>{'Примыкания'}</DialogTitle>
       <DialogContent id="lines">
-        <DialogContentText>{'Текст'}</DialogContentText>
+        <DialogContentText>
+          {'Сформируйте примыкания. Размеры указываются в метрах'}
+        </DialogContentText>
+        <TextField
+          required
+          margin="dense"
+          label="Наименование примыкания"
+          type="text"
+          fullWidth
+          variant="standard"
+          name="name"
+        />
+        <TextField
+          required
+          margin="dense"
+          label="Длина примыкания"
+          type="number"
+          fullWidth
+          variant="standard"
+          name="junctionLength"
+        />
         {line?.map((item) => {
           console.log(item);
           return (
@@ -118,19 +143,6 @@ export const JunctionModal = ({
                 fullWidth
                 variant="standard"
                 name="height"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  addInfo(item.id, event.target)
-                }
-              />
-              <TextField
-                autoFocus
-                required
-                margin="dense"
-                label="Длина примыкания"
-                type="text"
-                fullWidth
-                variant="standard"
-                name="length"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   addInfo(item.id, event.target)
                 }

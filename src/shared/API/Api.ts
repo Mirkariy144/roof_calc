@@ -165,7 +165,22 @@ export const axiosEditRoofType = async (
   return response;
 };
 
-export const axiosAddJunction = async (junctions: any, roofId: number) => {
-  const response = await instance.put(`junctions/${roofId}`, { junctions });
+export const axiosAddJunction = async (
+  name: string,
+  junctionLength: number,
+  junctions: any,
+  roofId: number
+) => {
+  const response = await instance.put(`junctions/${roofId}`, {
+    name,
+    junctionLength,
+    junctions,
+    roofId,
+  });
   return response;
+};
+
+export const axiosGetJunctions = async (roofId: number) => {
+  const response = await instance.get(`junctions/${roofId}`);
+  return response.data;
 };

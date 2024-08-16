@@ -6,9 +6,10 @@ import {
   CardContent,
   Typography,
 } from '@mui/material';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { IconButtons } from '../button/IconButtons';
 import { AddNewItemButton } from '../button/AddNewItemButton';
+import { axiosGetJunctions } from '../API/Api';
 
 export const RoofTypeCard = ({
   name,
@@ -18,6 +19,7 @@ export const RoofTypeCard = ({
   editAction,
   deleteAction,
   newJunctionAction,
+  openJunctionModal,
 }: {
   name: string;
   squareMeters: number;
@@ -26,7 +28,47 @@ export const RoofTypeCard = ({
   editAction: (elementId: number, name?: string, squareMeters?: number) => void;
   deleteAction: (elementId: number) => void;
   newJunctionAction: (elementId: number) => void;
+  openJunctionModal: boolean;
 }) => {
+  const [roofJunctions, setRoofJunctions] = useState<any[]>([]);
+
+  useEffect(() => {
+    const getJunctions = async (elementId: number) => {
+      try {
+        const junctions = await axiosGetJunctions(elementId);
+        setRoofJunctions(junctions);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getJunctions(elementId);
+  }, [openJunctionModal]);
+
+  const junctionsTypography = roofJunctions.map((item: any) => {
+    return (
+      <Typography
+        sx={{ fontSize: 14 }}
+        color="text.secondary"
+        gutterBottom
+        key={item.junctionId}
+      >
+        <span>{`${item.name} ${item.length}м.п.`}</span>
+        {item.junctionLayers.map((item: any) => {
+          return (
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+              key={item.layerId}
+            >
+              <span>{`${item.name} ${item.height}мм`}</span>
+            </Typography>
+          );
+        })}
+      </Typography>
+    );
+  });
+
   const roofLayersTypography = roofLayers.map((item: any) => {
     if (item.composition) {
       let materials = Object.values(item.composition);
@@ -63,7 +105,8 @@ export const RoofTypeCard = ({
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {squareMeters} м2
         </Typography>
-        {roofLayersTypography}
+        <div>{roofLayersTypography}</div>
+        <div>{junctionsTypography}</div>
       </CardContent>
       <CardActions>
         <AddNewItemButton

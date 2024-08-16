@@ -136,6 +136,7 @@ export const RoofListContainer = () => {
         editAction={handleClickOpenEditRoofModal}
         deleteAction={handleClickOpenDeleteRoofTypeModal}
         newJunctionAction={toggleNewJunctionModal}
+        openJunctionModal={openJunctionModal}
       />
       <div className={s.button}>
         <RoofModal
