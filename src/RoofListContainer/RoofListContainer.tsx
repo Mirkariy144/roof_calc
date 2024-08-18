@@ -6,12 +6,14 @@ import { useParams } from 'react-router-dom';
 import { GridRoofTypes } from '../shared/GridItems/GridRoofTypes';
 import { DeleteModal } from '../shared/Modal/DeleteModal';
 import {
+  axiosDeleteJunction,
   axiosDeleteRoofType,
   axiosEditRoofType,
   axiosGetRoofTypes,
   axiosNewRoofType,
 } from '../shared/API/Api';
 import { JunctionModal } from '../shared/NewRoofModal/Junction/JunctionModal';
+import { EditJunctionModal } from '../shared/NewRoofModal/Junction/EditJunctionModal';
 
 interface axiosItemsTypes {
   name: string;
@@ -59,6 +61,14 @@ export const RoofListContainer = () => {
 
   const [openJunctionModal, setOpenJunctionModal] = useState<boolean>(false);
 
+  const [openEditJunctionModal, setOpenEditJunctionModal] =
+    useState<boolean>(false);
+
+  const [editingJunction, setEditingJunction] = useState<any>({});
+
+  const [openDeleteJunctionModal, setOpenDeleteJunctionModal] =
+    useState<boolean>(false);
+
   const [elementId, setElementId] = useState<number>(0);
 
   useEffect(() => {
@@ -77,6 +87,8 @@ export const RoofListContainer = () => {
     sectionParamsToNumber,
     openNewItem,
     openJunctionModal,
+    openEditJunctionModal,
+    openDeleteJunctionModal,
   ]);
 
   const handleClickOpen = () => {
@@ -129,6 +141,44 @@ export const RoofListContainer = () => {
     setElementId(elementId ? elementId : 0);
   };
 
+  const handleClickOpenEditJunctionModal = (
+    junctionId: number,
+    junctionName?: string,
+    junctionLength?: number,
+    junctionLayer?: any
+  ) => {
+    setOpenEditJunctionModal(true);
+    setElementId(junctionId);
+    const junction = {
+      junctionId: junctionId,
+      junctionName: junctionName,
+      junctionLength: junctionLength,
+      junctionLayer: junctionLayer,
+    };
+    setEditingJunction(junction);
+  };
+
+  const handleCloseEditJunctionModal = (
+    func1: () => void = () => {},
+    func2: () => void = () => {}
+  ) => {
+    setOpenEditJunctionModal(false);
+    setEditingJunction(null);
+    setElementId(0);
+    func1();
+    func2();
+  };
+
+  const toggleDeleteJunctionModal = (junctionId?: number) => {
+    setOpenDeleteJunctionModal((prev) => !prev);
+    setElementId(junctionId ? junctionId : 0);
+  };
+
+  const deleteJunction = () => {
+    axiosDeleteJunction(elementId);
+    setOpenDeleteJunctionModal(false);
+  };
+
   return (
     <Fragment>
       <GridRoofTypes
@@ -137,6 +187,10 @@ export const RoofListContainer = () => {
         deleteAction={handleClickOpenDeleteRoofTypeModal}
         newJunctionAction={toggleNewJunctionModal}
         openJunctionModal={openJunctionModal}
+        editJunctionAction={handleClickOpenEditJunctionModal}
+        deleteJunctionAction={toggleDeleteJunctionModal}
+        openEditJunctionModal={openEditJunctionModal}
+        openDeleteJunctionModal={openDeleteJunctionModal}
       />
       <div className={s.button}>
         <RoofModal
@@ -165,6 +219,19 @@ export const RoofListContainer = () => {
           status={openJunctionModal}
           handler={toggleNewJunctionModal}
           elementId={elementId}
+        />
+        <EditJunctionModal
+          status={openEditJunctionModal}
+          handleClose={handleCloseEditJunctionModal}
+          elementId={elementId}
+          editingJunction={editingJunction}
+        />
+        <DeleteModal
+          Status={openDeleteJunctionModal}
+          handler={toggleDeleteJunctionModal}
+          deleteItem={deleteJunction}
+          Title="Удаление примыкания к кровле"
+          Text="Вы действительно хотите удалить примыкание кровли?"
         />
         <AddNewItemButton
           name="Добавить кровлю"

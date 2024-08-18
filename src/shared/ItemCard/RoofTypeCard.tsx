@@ -20,6 +20,10 @@ export const RoofTypeCard = ({
   deleteAction,
   newJunctionAction,
   openJunctionModal,
+  editJunctionAction,
+  deleteJunctionAction,
+  openEditJunctionModal,
+  openDeleteJunctionModal,
 }: {
   name: string;
   squareMeters: number;
@@ -29,6 +33,15 @@ export const RoofTypeCard = ({
   deleteAction: (elementId: number) => void;
   newJunctionAction: (elementId: number) => void;
   openJunctionModal: boolean;
+  editJunctionAction: (
+    junctionId: number,
+    junctionName?: string,
+    junctionLength?: number,
+    junctionLayer?: any
+  ) => void;
+  deleteJunctionAction: (junctionId: number) => void;
+  openEditJunctionModal: boolean;
+  openDeleteJunctionModal: boolean;
 }) => {
   const [roofJunctions, setRoofJunctions] = useState<any[]>([]);
 
@@ -42,9 +55,10 @@ export const RoofTypeCard = ({
       }
     };
     getJunctions(elementId);
-  }, [openJunctionModal]);
+  }, [openJunctionModal, openEditJunctionModal, openDeleteJunctionModal]);
 
   const junctionsTypography = roofJunctions.map((item: any) => {
+    console.log(roofJunctions);
     return (
       <Typography
         sx={{ fontSize: 14 }}
@@ -65,6 +79,14 @@ export const RoofTypeCard = ({
             </Typography>
           );
         })}
+        <IconButtons
+          editAction={editJunctionAction}
+          elementId={item.junctionId}
+          name={item.name}
+          squareMeters={item.length}
+          roofJunction={item.junctionLayers}
+          deleteAction={deleteJunctionAction}
+        />
       </Typography>
     );
   });

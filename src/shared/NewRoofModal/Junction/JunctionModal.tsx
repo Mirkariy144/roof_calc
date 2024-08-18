@@ -9,9 +9,10 @@ import {
   TextField,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import { SelectJunction } from './SelectJunction';
 import { axiosAddJunction } from '../../API/Api';
+import { DeleteForeverOutlined } from '@mui/icons-material';
 
 const _ = require('lodash');
 
@@ -31,28 +32,6 @@ export const JunctionModal = ({
   const [junctionLayers, setJunctionLayers] = useState<any>([]);
 
   console.log(junctionLayers);
-
-  // const newLine: ReactElement = (
-  //   <>
-  //     <SelectJunction
-  //       setJunctionLayers={setJunctionLayers}
-  //       junctionLayers={junctionLayers}
-  //     />
-  //     <TextField
-  //       autoFocus
-  //       required
-  //       margin="dense"
-  //       name={line.length.toString()}
-  //       label="Примыкание"
-  //       type="text"
-  //       fullWidth
-  //       variant="standard"
-  //       onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-  //         addInfo(line.length, event.currentTarget.value)
-  //       }
-  //     />
-  //   </>
-  // );
 
   const addInfo = (elementId: number, eventTarget: any) => {
     setJunctionLayers((prevData: any) => {
@@ -78,6 +57,13 @@ export const JunctionModal = ({
 
   const clearJunctionLayers = () => {
     setJunctionLayers([]);
+  };
+
+  const deleteRow = (id: number) => {
+    setLine((prevLine) => prevLine.filter((item: any) => item.id !== id));
+    setJunctionLayers((prevData: any) => {
+      return prevData.filter((item: any) => item.uniqueId !== id);
+    });
   };
 
   return (
@@ -147,6 +133,12 @@ export const JunctionModal = ({
                   addInfo(item.id, event.target)
                 }
               />
+              <IconButton
+                aria-label="Удалить строку"
+                onClick={() => deleteRow(item.id)}
+              >
+                <DeleteForeverOutlined sx={{ color: 'red' }} />
+              </IconButton>
             </React.Fragment>
           );
         })}

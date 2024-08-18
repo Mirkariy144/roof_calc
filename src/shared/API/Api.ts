@@ -171,7 +171,7 @@ export const axiosAddJunction = async (
   junctions: any,
   roofId: number
 ) => {
-  const response = await instance.put(`junctions/${roofId}`, {
+  const response = await instance.post(`junctions/${roofId}`, {
     name,
     junctionLength,
     junctions,
@@ -183,4 +183,25 @@ export const axiosAddJunction = async (
 export const axiosGetJunctions = async (roofId: number) => {
   const response = await instance.get(`junctions/${roofId}`);
   return response.data;
+};
+
+export const axiosDeleteJunction = async (junctionId: number) => {
+  const response = await instance.delete(`junctions/${junctionId}`);
+  return response;
+};
+
+export const axiosEditJunction = async (
+  name: string,
+  junctionLength: number,
+  junctions: any,
+  roofId: number
+) => {
+  debugger;
+  const response = await instance.put(`junctions/${roofId}`, {
+    name,
+    junctionLength,
+    junctions,
+    roofId,
+  });
+  return response;
 };

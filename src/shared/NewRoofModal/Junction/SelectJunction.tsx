@@ -21,11 +21,11 @@ export const SelectJunction = ({
   setJunctionLayers,
   junctionLayers,
   uniqueId,
+  editingValue,
 }: any) => {
   const _ = require('lodash');
 
   const [elementUniqueId, setElementUniqueId] = useState<number>(uniqueId);
-  console.log(elementUniqueId);
   const [JunctionLayer, setJunctionLayer] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof JunctionLayer>) => {
@@ -70,8 +70,10 @@ export const SelectJunction = ({
           onChange={handleChange}
           input={<OutlinedInput />}
           renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Выберите новый слой кровли</em>;
+            if (editingValue) {
+              return <em>{editingValue}</em>;
+            } else if (selected.length === 0) {
+              return <em>Выберите примыкания</em>;
             }
             return selected;
           }}

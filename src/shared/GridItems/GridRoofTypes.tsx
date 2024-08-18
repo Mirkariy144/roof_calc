@@ -9,6 +9,15 @@ interface GridItemsProps {
   deleteAction: (elementId: number) => void;
   newJunctionAction: (elementId: number) => void;
   openJunctionModal: boolean;
+  editJunctionAction: (
+    junctionId: number,
+    junctionName?: string,
+    junctionLength?: number,
+    junctionLayer?: any
+  ) => void;
+  deleteJunctionAction: (junctionId: number) => void;
+  openEditJunctionModal: boolean;
+  openDeleteJunctionModal: boolean;
 }
 
 export const GridRoofTypes = ({
@@ -17,6 +26,10 @@ export const GridRoofTypes = ({
   deleteAction,
   newJunctionAction,
   openJunctionModal,
+  editJunctionAction,
+  deleteJunctionAction,
+  openEditJunctionModal,
+  openDeleteJunctionModal,
 }: GridItemsProps) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -45,6 +58,10 @@ export const GridRoofTypes = ({
               deleteAction={deleteAction}
               newJunctionAction={newJunctionAction}
               openJunctionModal={openJunctionModal}
+              editJunctionAction={editJunctionAction}
+              deleteJunctionAction={deleteJunctionAction}
+              openEditJunctionModal={openEditJunctionModal}
+              openDeleteJunctionModal={openDeleteJunctionModal}
             />
           </Grid>
         ))}
