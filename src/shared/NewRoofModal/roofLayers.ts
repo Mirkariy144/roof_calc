@@ -25,8 +25,8 @@ export const roofLayers: any = [
       material3: '',
     },
   },
-  { name: 'ХЦЛ', layerId: 4 },
-  { name: 'Водосточная воронка', layerId: 5 },
+  { name: 'ХЦЛ', layerId: 4, composition: { material1: '' } },
+  { name: 'Водосточная воронка', layerId: 5, composition: { material1: '' } },
   {
     name: 'Гидроизоляция',
     layerId: 6,
@@ -35,7 +35,8 @@ export const roofLayers: any = [
       material2: '',
     },
   },
-  { name: 'Утеплитель', layerId: 7 },
+  { name: 'Утеплитель', layerId: 7, composition: { material1: '' } },
+
   {
     name: 'Балластный слой',
     layerId: 8,

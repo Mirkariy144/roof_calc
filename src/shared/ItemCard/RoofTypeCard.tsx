@@ -10,6 +10,15 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { IconButtons } from '../button/IconButtons';
 import { AddNewItemButton } from '../button/AddNewItemButton';
 import { axiosGetJunctions } from '../API/Api';
+import { Padding, WidthFull } from '@mui/icons-material';
+
+const junctionBorderStyle: any = {
+  border: '1px solid #1976d280',
+  borderRadius: '4px',
+  boxSizing: 'border-box',
+  fontSize: '14px',
+  padding: '10px 0px 0px 10px',
+};
 
 export const RoofTypeCard = ({
   name,
@@ -58,26 +67,26 @@ export const RoofTypeCard = ({
   }, [openJunctionModal, openEditJunctionModal, openDeleteJunctionModal]);
 
   const junctionsTypography = roofJunctions.map((item: any) => {
-    console.log(roofJunctions);
     return (
       <Typography
-        sx={{ fontSize: 14 }}
+        sx={junctionBorderStyle}
         color="text.secondary"
         gutterBottom
         key={item.junctionId}
       >
-        <span>{`${item.name} ${item.length}м.п.`}</span>
+        <span>{`Примыкание ${item.name} ${item.length}м.п.`}</span>
         {item.junctionLayers.map((item: any) => {
-          return (
+          let materials = Object.values(item.composition);
+          return materials.map((item: any) => (
             <Typography
               sx={{ fontSize: 14 }}
               color="text.secondary"
               gutterBottom
               key={item.layerId}
             >
-              <span>{`${item.name} ${item.height}мм`}</span>
+              <span>{item}</span>
             </Typography>
-          );
+          ));
         })}
         <IconButtons
           editAction={editJunctionAction}
@@ -92,30 +101,17 @@ export const RoofTypeCard = ({
   });
 
   const roofLayersTypography = roofLayers.map((item: any) => {
-    if (item.composition) {
-      let materials = Object.values(item.composition);
-      return materials.map((item: any) => (
-        <Typography
-          sx={{ fontSize: 14 }}
-          color="text.secondary"
-          gutterBottom
-          key={item}
-        >
-          {item}
-        </Typography>
-      ));
-    } else {
-      return (
-        <Typography
-          sx={{ fontSize: 14 }}
-          color="text.secondary"
-          gutterBottom
-          key={item.layerId}
-        >
-          {item.name}
-        </Typography>
-      );
-    }
+    let materials = Object.values(item.composition);
+    return materials.map((item: any) => (
+      <Typography
+        sx={{ fontSize: 14 }}
+        color="text.secondary"
+        gutterBottom
+        key={item}
+      >
+        {item}
+      </Typography>
+    ));
   });
 
   const card = (

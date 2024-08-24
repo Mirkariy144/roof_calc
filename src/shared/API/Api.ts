@@ -196,7 +196,6 @@ export const axiosEditJunction = async (
   junctions: any,
   roofId: number
 ) => {
-  debugger;
   const response = await instance.put(`junctions/${roofId}`, {
     name,
     junctionLength,
